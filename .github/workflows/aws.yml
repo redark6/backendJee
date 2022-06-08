@@ -23,6 +23,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: ./
           target: ${{ secrets.DIR_TARGET }}
-  startServer:
-    needs: deploy
-    uses: ./.github/workflows/startServer.yml
+    - uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_DNS }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: mvn spring-boot:run
