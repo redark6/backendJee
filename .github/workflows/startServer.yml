@@ -1,0 +1,20 @@
+name: Start Server SpringBoot in Ec2 Instance
+
+on:
+  push:
+    branches:
+      [main]
+
+jobs:
+  startServer:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: start Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: mvn spring-boot:run
