@@ -9,17 +9,14 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  startServer:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Test with Maven
-      run: mvn test
+      - name: start server maven
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.HOST_DNS }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            port: ${{ secrets.PORT }}
+            script: mvn spring-boot:run
