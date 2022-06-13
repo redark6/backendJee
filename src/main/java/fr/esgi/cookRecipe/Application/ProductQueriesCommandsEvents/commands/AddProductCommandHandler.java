@@ -38,7 +38,7 @@ public class AddProductCommandHandler implements CommandHandler<AddProduct, Void
 		product.setNutriScore(nutriScore);
 		product.setMesure(measureUnit);
 		this.productService.addProduct(product);
-    	eventDispatcher.dispatch(AddProductEvent.of(nutriScore.getGrade()));
+    	eventDispatcher.dispatch(AddProductEvent.of(command.addProductDTO.name));
     	return null;
     }
 }

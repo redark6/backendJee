@@ -20,17 +20,16 @@ public class RetrieveProductByIdHandler implements QueryHandler<RetrieveProductB
 
     @Override
     public ProductDTO handle(RetrieveProductById query) {
-    	UUID productId = UUID.fromString(query.productId);
-    	Product product = productService.getProductById(productId);
-        ProductDTO result = ProductDTO.of(
+        UUID productId = UUID.fromString(query.productId);
+        Product product = productService.getProductById(productId);
+        return ProductDTO.of(
                 product.getId().toString(),
                 product.getName(),
                 product.getMesure().getUnit(),
                 NutriScoreDTO.of(
                         product.getNutriScore().getId().toString(),
                         product.getNutriScore().getGrade()
-                        )
-                );
-        return result;
+                )
+        );
     }
 }

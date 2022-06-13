@@ -21,7 +21,6 @@ public class RetrieveNutriScoreByIdHandler implements QueryHandler<RetrieveNutri
     public NutriScoreDTO handle(RetrieveNutriScoreById query) {
     	UUID nutriScoreId = UUID.fromString(query.nutriScoreId);
     	NutriScore nutriScore = nutriScoreService.getNutrisScoreById(nutriScoreId);
-        NutriScoreDTO result = NutriScoreDTO.of(nutriScore.getId().toString(), nutriScore.getGrade());
-        return result;
+        return NutriScoreDTO.of(nutriScore.getId().toString(), nutriScore.getGrade());
     }
 }

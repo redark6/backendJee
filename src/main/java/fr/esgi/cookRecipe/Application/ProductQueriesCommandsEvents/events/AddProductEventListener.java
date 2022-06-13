@@ -6,7 +6,7 @@ public class AddProductEventListener implements EventListener<AddProductEvent> {
 	
     @Override
     public void listenTo(AddProductEvent event) {
-        System.out.println("listening AddNutriScoreEvent.");
+        System.out.println("listening AddProductEvent.");
     }
 
 }

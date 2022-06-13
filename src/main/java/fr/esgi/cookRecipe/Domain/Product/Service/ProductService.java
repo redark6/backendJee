@@ -43,12 +43,8 @@ public class ProductService {
         return product.get();
     }
 
-    public Product getProductByName(String name) {
-        Optional<Product> product = this.productRepository.getProductByName(name);
-        if(product.isEmpty()){
-            throw NoSuchEntityException.withNameAndElem(name,"product");
-        }
-        return product.get();
+    public List<Product> getProductsByName(String name, Pageable pagination) {
+        return this.productRepository.findProductByNameContaining(name, pagination).getContent();
     }
 
     public void deleteProductById(UUID id) {

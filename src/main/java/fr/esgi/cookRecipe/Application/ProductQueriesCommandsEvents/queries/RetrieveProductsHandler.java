@@ -24,7 +24,7 @@ public class RetrieveProductsHandler implements QueryHandler<RetrieveProducts, P
 	public ProductsDTO handle(RetrieveProducts query) {
 		List<Product> products = productService.getAllProducts();
 
-		ProductsDTO result = ProductsDTO.of(products.stream()
+		return ProductsDTO.of(products.stream()
 				.map(product ->
 						ProductDTO.of(
 								product.getId().toString(),
@@ -35,7 +35,7 @@ public class RetrieveProductsHandler implements QueryHandler<RetrieveProducts, P
 										product.getNutriScore().getGrade()
 								)
 						)
-				).collect(Collectors.toList()));
-		return result;
+				).collect(Collectors.toList())
+		);
 	}
 }

@@ -13,21 +13,20 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RetrievePaginatedProductsHandler implements QueryHandler<RetrievePaginatedProducts, ProductsDTO> {
+public class RetrieveProductsByNameHandler implements QueryHandler<RetrieveProductsByName, ProductsDTO> {
 
     private final ProductService productService;
 
     @Autowired
-    public RetrievePaginatedProductsHandler(ProductService productService) {
+    public RetrieveProductsByNameHandler(ProductService productService) {
         this.productService = productService;
     }
 
     @Override
-    public ProductsDTO handle(RetrievePaginatedProducts query) {
+    public ProductsDTO handle(RetrieveProductsByName query) {
         Pageable pageRequest = PageRequest.of(query.offset, query.limit);
-        List<Product> products = productService.getPaginatedProductList(pageRequest);
-
-        ProductsDTO result = ProductsDTO.of(products.stream()
+        List<Product> products = productService.getProductsByName(query.productName, pageRequest);
+        return ProductsDTO.of(products.stream()
                 .map(product ->
                         ProductDTO.of(
                                 product.getId().toString(),
@@ -38,7 +37,7 @@ public class RetrievePaginatedProductsHandler implements QueryHandler<RetrievePa
                                         product.getNutriScore().getGrade()
                                 )
                         )
-                ).collect(Collectors.toList()));
-        return result;
+                ).collect(Collectors.toList())
+        );
     }
 }

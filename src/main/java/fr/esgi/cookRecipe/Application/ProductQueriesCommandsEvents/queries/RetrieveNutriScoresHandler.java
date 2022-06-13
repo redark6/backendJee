@@ -23,13 +23,12 @@ public class RetrieveNutriScoresHandler implements QueryHandler<RetrieveNutriSco
 	public NutriScoresDTO handle(RetrieveNutriScores query) {
 		List<NutriScore> nutriScores = nutriScoreService.getAllNutriScores();
 
-		NutriScoresDTO result = NutriScoresDTO.of(nutriScores.stream()
+		return NutriScoresDTO.of(nutriScores.stream()
 				.map(nutriScore ->
 						NutriScoreDTO.of(
 								nutriScore.getId().toString(),
 								nutriScore.getGrade()
 						)
 				).collect(Collectors.toList()));
-		return result;
 	}
 }

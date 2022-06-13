@@ -4,13 +4,13 @@ import kernel.ApplicationEvent;
 
 public class AddProductEvent implements ApplicationEvent {
 	
-	public final char grade;
+	public final String name;
 	
-    public static AddProductEvent of(char grade) {
-        return new AddProductEvent(grade);
+    public static AddProductEvent of(String name) {
+        return new AddProductEvent(name);
     }
 	
-	private AddProductEvent(char grade) {
-		this.grade = grade;
+	private AddProductEvent(String name) {
+		this.name = name;
 	}
 }
