@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class User extends AbstractPersistable {
 
     @Id
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true) // -> this will be the mail
     private String username;
 
     @Column(name = "password")

@@ -1,16 +1,12 @@
 package fr.esgi.cookRecipe.Exposition.Controller;
 
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.RetrieveNutriScoreById;
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.RetrieveNutriScores;
+import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.commands.AddProduct;
 import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.commands.DeleteProductById;
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.RetrievePaginatedProducts;
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.RetrieveProductById;
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.RetrieveProductByName;
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.queries.RetrieveProducts;
 import fr.esgi.cookRecipe.Exposition.ProductDTO.*;
 import kernel.CommandBus;
 import kernel.QueryBus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +20,9 @@ public class ProductController {
     private final CommandBus commandBus;
     private final QueryBus queryBus;
 
+    @Autowired
     public ProductController(CommandBus commandBus, QueryBus queryBus){
-         this.commandBus = commandBus;
+        this.commandBus = commandBus;
         this.queryBus = queryBus;
     }
 
@@ -57,6 +54,9 @@ public class ProductController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Peut être la recherche
+     **/
     @GetMapping(value = "/name/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductDTO> getProductByName(@PathVariable(value="name") String name){
         final RetrieveProductByName retrieveProductByName = new RetrieveProductByName(name);
@@ -82,6 +82,20 @@ public class ProductController {
     public ResponseEntity<NutriScoreDTO> getNutriScoreById(@PathVariable(value="id") String id){
         final RetrieveNutriScoreById retrieveNutriScoreById = new RetrieveNutriScoreById(id);
         final NutriScoreDTO result = queryBus.send(retrieveNutriScoreById);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value ="/research/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
+        public ResponseEntity<ProductsDTO> getMostResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
+            final RetrieveMostResearchedProductsByName retrieveMostResearchedProductsByName = new RetrieveMostResearchedProductsByName(name,limit,offset);
+            final ProductsDTO result = queryBus.send(retrieveMostResearchedProductsByName);
+            return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value ="/research/neverresearched", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductsDTO> getNeverResearchedProducts(@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
+        final RetrieveNeverResearchedProductsByName retrieveNeverResearchedProductsByName = new RetrieveNeverResearchedProductsByName(limit,offset);
+        final ProductsDTO result = queryBus.send(retrieveNeverResearchedProductsByName);
         return ResponseEntity.ok(result);
     }
 }

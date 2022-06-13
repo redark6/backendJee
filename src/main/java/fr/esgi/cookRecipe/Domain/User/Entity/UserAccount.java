@@ -19,11 +19,11 @@ public class UserAccount extends AbstractPersistable {
     @Column(name = "id", unique = true)
     private UUID id;
 
-    @Column(name = "login")
-    private String login;
+    @Column(name = "username") // -> the true username
+    private String username;
 
-    @Column(name = "mail")
-    private String mail;
+    @Column(name = "email", unique = true)
+    private String email;
 
     @OneToMany
     @JoinColumn(name = "recipies")

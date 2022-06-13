@@ -1,7 +1,5 @@
 package fr.esgi.cookRecipe.Exposition.ProductDTO;
 
-import fr.esgi.cookRecipe.Domain.Util.Entity.MeasureUnit;
-
 public class ProductDTO {
     private String id;
     private String name;

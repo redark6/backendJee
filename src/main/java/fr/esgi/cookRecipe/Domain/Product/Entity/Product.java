@@ -39,6 +39,5 @@ public class Product extends AbstractPersistable {
             default: return -1;
         }
     }
-
-     */
+    */
 }
