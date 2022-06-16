@@ -40,7 +40,7 @@ public class UserController {
     }
 
     /**
-     * Pour recuperer un compte par id
+     * Pour récuperer un compte par id
      **/
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserDTO> getUserProfilById(@PathVariable(value="id") String id){
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     /**
-     * Pour recuperer son compte
+     * Pour récuperer son compte
      **/
     @GetMapping(value = "/me", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserMeDTO> getConnectedUserProfil(){

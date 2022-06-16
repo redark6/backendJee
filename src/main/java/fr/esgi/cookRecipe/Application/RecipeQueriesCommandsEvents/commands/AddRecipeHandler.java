@@ -1,43 +1,52 @@
 package fr.esgi.cookRecipe.Application.RecipeQueriesCommandsEvents.commands;
 
-import fr.esgi.cookRecipe.Application.RecipeQueriesCommandsEvents.events.AddProductEvent;
-import fr.esgi.cookRecipe.Domain.Product.Entity.NutriScore;
 import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
-import fr.esgi.cookRecipe.Domain.Product.Service.NutriScoreService;
 import fr.esgi.cookRecipe.Domain.Product.Service.ProductService;
-import fr.esgi.cookRecipe.Domain.Util.Entity.MeasureUnit;
+import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
+import fr.esgi.cookRecipe.Domain.Recipe.Entity.RecipeProductQuantity;
+import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
+import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
+import fr.esgi.cookRecipe.Exposition.RecipeDTO.AddRecipeDTO;
+import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeProductQuantityDTO;
 import kernel.CommandHandler;
-import kernel.Event;
-import kernel.EventDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 
 	private final ProductService productService;
-	private final NutriScoreService nutriScoreService;
-	private final MeseaureUniteService meseaureUniteService;
-	private final EventDispatcher<Event> eventDispatcher;
+	private final RecipeService recipeService;
+	private final UserAccountService userAccountService;
 
 	@Autowired
-	public AddRecipeHandler(ProductService productService, NutriScoreService nutriScoreService, MeseaureUniteService meseaureUniteService, EventDispatcher eventDispatcher) {
+	public AddRecipeHandler(ProductService productService, RecipeService recipeService, UserAccountService userAccountService) {
 		this.productService = productService;
-		this.nutriScoreService = nutriScoreService;
-		this.meseaureUniteService = meseaureUniteService;
-		this.eventDispatcher = eventDispatcher;
+		this.recipeService = recipeService;
+		this.userAccountService = userAccountService;
 	}
     
     public Void handle(AddRecipe command) {
-		NutriScore nutriScore = this.nutriScoreService.getNutrisScoreById(UUID.fromString(command.addProductDTO.nutriScoreId));
-		MeasureUnit measureUnit = this.meseaureUniteService.getMeasureUniteById(UUID.fromString(command.addProductDTO.uniteId));
-		Product product = new Product();
-		product.setId(null);
-		product.setName(command.addProductDTO.name);
-		product.setNutriScore(nutriScore);
-		product.setMesure(measureUnit);
-		this.productService.addProduct(product);
-    	eventDispatcher.dispatch(AddProductEvent.of(nutriScore.getGrade()));
-    	return null;
+		AddRecipeDTO recipeDTO = command.addRecipeDTO;
+		List<RecipeProductQuantity> products= recipeDTO.products.stream().map(product -> getProductItem(product)).collect(Collectors.toList());
+		Recipe recipe = new Recipe();
+		recipe.setName(recipeDTO.name);
+		recipe.setShares(recipeDTO.shares);
+		recipe.setExecutionTime(recipeDTO.executionTime);
+		recipe.setPrice(recipeDTO.price);
+		recipe.setProducts(products);
+		this.recipeService.addRecipe(recipe);
+		this.userAccountService.
+		return null;
     }
+
+	private RecipeProductQuantity getProductItem(RecipeProductQuantityDTO productQuantityDTO){
+		Product product = this.productService.getProductById(UUID.fromString(productQuantityDTO.productId));
+		RecipeProductQuantity RecipeProductQuantity = new RecipeProductQuantity();
+		RecipeProductQuantity.setProduct(product);
+		RecipeProductQuantity.setQuantity(productQuantityDTO.quantity);
+		return RecipeProductQuantity;
+	}
 }

@@ -1,6 +1,5 @@
 package fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.commands;
 
-import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.events.AddProductEvent;
 import fr.esgi.cookRecipe.Domain.Product.Entity.NutriScore;
 import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
 import fr.esgi.cookRecipe.Domain.Product.Service.MeasureUniteService;
@@ -8,8 +7,6 @@ import fr.esgi.cookRecipe.Domain.Product.Service.NutriScoreService;
 import fr.esgi.cookRecipe.Domain.Product.Service.ProductService;
 import fr.esgi.cookRecipe.Domain.Util.Entity.MeasureUnit;
 import kernel.CommandHandler;
-import kernel.Event;
-import kernel.EventDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
@@ -19,14 +16,12 @@ public class AddProductCommandHandler implements CommandHandler<AddProduct, Void
 	private final ProductService productService;
 	private final NutriScoreService nutriScoreService;
 	private final MeasureUniteService measureUniteService;
-	private final EventDispatcher<Event> eventDispatcher;
 
 	@Autowired
-	public AddProductCommandHandler(ProductService productService, NutriScoreService nutriScoreService, MeasureUniteService measureUniteService, EventDispatcher eventDispatcher) {
+	public AddProductCommandHandler(ProductService productService, NutriScoreService nutriScoreService, MeasureUniteService measureUniteService) {
 		this.productService = productService;
 		this.nutriScoreService = nutriScoreService;
 		this.measureUniteService = measureUniteService;
-		this.eventDispatcher = eventDispatcher;
 	}
     
     public Void handle(AddProduct command) {
@@ -38,7 +33,6 @@ public class AddProductCommandHandler implements CommandHandler<AddProduct, Void
 		product.setNutriScore(nutriScore);
 		product.setMesure(measureUnit);
 		this.productService.addProduct(product);
-    	eventDispatcher.dispatch(AddProductEvent.of(command.addProductDTO.name));
     	return null;
     }
 }

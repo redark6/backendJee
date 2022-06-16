@@ -1,11 +1,12 @@
 package fr.esgi.cookRecipe.Domain.Social.Service;
 
+import fr.esgi.cookRecipe.Domain.Social.Entity.UserLikesRecipe;
 import fr.esgi.cookRecipe.Domain.Social.Repository.LikeRepository;
-import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class LikeService {
@@ -16,15 +17,19 @@ public class LikeService {
         this.likeRepository = likeRepository;
     }
 
-    public List<Product> getLikesByRecipe() {
-        return null;
+    public void putlikeRecipe(UserLikesRecipe userLikesRecipe){
+        this.saveLike(userLikesRecipe);
     }
 
-    public void putLike(Product product) {
-        this.saveProduct(product);
+    public Long getRecipeLikeScore(UUID recipeId){
+        return this.likeRepository.countByRecipeIdAndLikedTrue(recipeId);
     }
 
-    private void saveProduct(Product product) {
-        this.likeRepository.save(product);
+    public Optional<UserLikesRecipe> findUserRecipeLike(UUID recipeId, String userId){
+        return this.likeRepository.findUserLikesRecipeByRecipeIdAndUser_id(recipeId, userId);
+    }
+
+    private void saveLike(UserLikesRecipe userLikesRecipe) {
+        this.likeRepository.save(userLikesRecipe);
     }
 }

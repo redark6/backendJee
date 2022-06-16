@@ -17,11 +17,11 @@ public class UserCommentsRecipe extends AbstractPersistable {
     private UUID id;
 
     @Column(name = "user_id")
-    private Long user_id;
+    private String user_id;
 
     @Column(name = "comment_id")
-    private Long comment_id;
+    private UUID comment_id;
 
     @Column(name = "recipe_id")
-    private Long recipeId;
+    private UUID recipeId;
 }

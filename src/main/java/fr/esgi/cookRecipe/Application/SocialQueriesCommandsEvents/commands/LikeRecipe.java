@@ -1,4 +1,12 @@
 package fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.commands;
 
-public class LikeRecipe {
+import kernel.Command;
+
+public class LikeRecipe  implements Command {
+
+    public final String recipeId;
+
+    public LikeRecipe(String recipeId) {
+        this.recipeId = recipeId;
+    }
 }

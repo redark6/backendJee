@@ -1,8 +1,8 @@
 package fr.esgi.cookRecipe.Exposition.RecipeDTO;
 
-import fr.esgi.cookRecipe.Domain.Recipe.Entity.RecipeProductQuantity;
-
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public class AddRecipeDTO {
@@ -10,15 +10,18 @@ public class AddRecipeDTO {
     @NotBlank
     public String name;
 
-    @NotBlank
-    private int shares;
+    @NotEmpty
+    @Min(value = 1)
+    public int shares;
+
+    @NotEmpty
+    @Min(value = 1L)
+    public Long executionTime;
+
+    @NotEmpty
+    @Min(value = 1L)
+    public double price;
 
     @NotBlank
-    private Long executionTime;
-
-    @NotBlank
-    private double price;
-
-    @NotBlank
-    private List<RecipeProductQuantity> products;
+    public List<RecipeProductQuantityDTO> products;
 }

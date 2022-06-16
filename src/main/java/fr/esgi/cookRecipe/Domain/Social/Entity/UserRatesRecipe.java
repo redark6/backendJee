@@ -17,14 +17,14 @@ public class UserRatesRecipe extends AbstractPersistable {
     private UUID id;
 
     @Column(name = "recipe_id")
-    private Long recipeId;
+    private UUID recipeId;
 
     @Column(name = "rate")
-    private int rate;
+    private double rate;
 
     @Column(name = "category_id")
-    private Long categoryId;
+    private UUID categoryId;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 }

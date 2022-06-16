@@ -1,7 +1,8 @@
-package fr.esgi.cookRecipe.Domain.Recipe.Service;
+package fr.esgi.cookRecipe.Domain.Social.Service;
 
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
-import fr.esgi.cookRecipe.Domain.Recipe.Repository.RecipeRepository;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Category;
+import fr.esgi.cookRecipe.Domain.Social.Repository.CategoryRepository;
 import kernel.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,25 +14,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class RecipeService {
-    private final RecipeRepository recipeRepository;
+public class CategoryService {
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public RecipeService(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
-    public void addRecipe(Recipe recipe) {
-        this.saveRecipe(recipe);
+    public void addCategory(Category category) {
+        this.saveCategory(category);
     }
 
-    public List<Recipe> getAllRecipes() {
-        Iterable<Recipe> recipes = this.recipeRepository.findAll();
-        return Streamable.of(recipes).toList();
-    }
-
-    public List<Recipe> getPaginatedRecipeList(Pageable pagination) {
-        return this.recipeRepository.findAll(pagination).getContent();
+    public List<Category> getAllCategories() {
+        return this.categoryRepository.findAll();
     }
 
     public Recipe getRecipeById(UUID id) {
@@ -58,7 +54,7 @@ public class RecipeService {
         this.getRecipeById(id);
     }
 
-    private void saveRecipe(Recipe recipe){
-        this.recipeRepository.save(recipe);
+    private void saveCategory(Category category){
+        this.categoryRepository.save(category);
     }
 }

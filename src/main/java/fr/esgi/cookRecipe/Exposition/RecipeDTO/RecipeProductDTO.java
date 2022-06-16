@@ -9,11 +9,11 @@ public class RecipeProductDTO {
     private String unite;
     private NutriScoreDTO nutriScore;
 
-    public static RecipeProductDTO of(String id, String name, String unite, int quantity, NutriScoreDTO nutriScore) {
-        return new RecipeProductDTO(id, name, unite, quantity, nutriScore);
+    public static RecipeProductDTO of(String id, String name, int quantity, String unite, NutriScoreDTO nutriScore) {
+        return new RecipeProductDTO(id, name, quantity, unite, nutriScore);
     }
 
-    private RecipeProductDTO(String id, String name, String unite, int quantity, NutriScoreDTO nutriScore) {
+    private RecipeProductDTO(String id, String name, int quantity, String unite, NutriScoreDTO nutriScore) {
         this.id = id;
         this.quantity = quantity;
         this.name = name;

@@ -17,10 +17,10 @@ public class UserLikesRecipe extends AbstractPersistable {
     private UUID id;
 
     @Column(name = "recipe_id")
-    private Long recipeId;
+    private UUID recipeId;
 
     @Column(name = "user_id")
-    private Long user_id;
+    private String user_id;
 
     @Column(name = "liked")
     private boolean liked;

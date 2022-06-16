@@ -11,5 +11,8 @@ import java.util.UUID;
 @Repository
 public interface RecipeRepository extends PagingAndSortingRepository<Recipe, UUID> {
     List<Recipe> getRecipesByName(String name);
+
+    //select * from recipes where
+    List<Recipe> getRecipesByPro(String name);
     //List<Recipe> getRecipesBy(String name);
 }

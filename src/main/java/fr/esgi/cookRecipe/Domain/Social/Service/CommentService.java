@@ -26,21 +26,20 @@ public class CommentService {
         return comment.get();
     }
 
-    public List<Comment> getCommentsByRecipe() {
-        return null;
+    public List<Comment> getCommentsByRecipe(UUID recipeId) {
+        this.commentRepository.
     }
 
-    public void putLike(Comment comment) {
+    public void addComment(Comment comment) {
         this.saveComment(comment);
     }
 
-    public void patchComment(Comment comment){
-        this.commentRepository
-        this.saveComment();
+    public void removeCommentById(UUID id) {
+        this.commentRepository.delete(this.getCommentById(id));
     }
 
-    public void removeCommentById(UUID id) throws Exception {
-        this.commentRepository.delete(this.getCommentById(id));
+    public void commentExist(UUID id){
+        this.getCommentById(id);
     }
 
     private void saveComment(Comment comment) {

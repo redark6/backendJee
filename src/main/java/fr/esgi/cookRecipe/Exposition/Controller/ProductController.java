@@ -67,7 +67,7 @@ public class ProductController {
     }
 
     /**
-     * Pour supprimer un produit par id
+     * Pour supprimer un produit par id ( faudrais supprimer toutes les recettes associer, ed point a enlever surement)
      **/
     @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity deleteProduct(@PathVariable(value="id") String id){
@@ -99,7 +99,7 @@ public class ProductController {
     /**
      * Pour récuperer les produits les plus rechercher
      **/
-    @GetMapping(value ="/research/mostresearched/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value ="/search/most/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<ProductsDTO> getMostResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
             final RetrieveMostResearchedProductsByName retrieveMostResearchedProductsByName = new RetrieveMostResearchedProductsByName(name,limit,offset);
             final ProductsDTO result = queryBus.send(retrieveMostResearchedProductsByName);
@@ -109,7 +109,7 @@ public class ProductController {
     /**
      * Pour récuperer les produits jamais rechercher
      **/
-    @GetMapping(value ="/research/neverresearched/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value ="/search/never/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsDTO> getNeverResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
         final RetrieveNeverResearchedProductsByName retrieveNeverResearchedProductsByName = new RetrieveNeverResearchedProductsByName(name,limit,offset);
         final ProductsDTO result = queryBus.send(retrieveNeverResearchedProductsByName);

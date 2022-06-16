@@ -4,7 +4,7 @@ import fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.queries.RetrieveRecipesSocial;
 import fr.esgi.cookRecipe.Exposition.SocialDTO.AddCommentRecipeDTO;
 import fr.esgi.cookRecipe.Exposition.SocialDTO.RateRecipeDTO;
-import fr.esgi.cookRecipe.Exposition.SocialDTO.RecipesSocialDTO;
+import fr.esgi.cookRecipe.Exposition.SocialDTO.RecipeSocialDTO;
 import kernel.CommandBus;
 import kernel.QueryBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,9 @@ public class SocialController {
         this.queryBus = queryBus;
     }
 
+    /**
+     * Pour commenter une recette
+     **/
     @PostMapping(value = "/comment}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity commentRecipe(@RequestBody @Valid AddCommentRecipeDTO request){
         final AddCommentRecipe addCommentRecipe = new AddCommentRecipe(request);
@@ -34,13 +37,19 @@ public class SocialController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/deletecomment}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity deleteCommentRecipe(@RequestBody @Valid DeleteCommentRecipeDTO request){
-        final DeleteCommentRecipe deleteComment = new DeleteCommentRecipe(request);
+    /**
+     * Pour supprimer un commentaire ( à qui nous appartient )
+     **/
+    @DeleteMapping(value = "/deletecomment/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity deleteCommentRecipe(@PathVariable(value="id") String commentId){
+        final DeleteCommentRecipe deleteComment = new DeleteCommentRecipe(commentId);
         commandBus.send(deleteComment);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Pour évaluer une recette
+     **/
     @PostMapping(value = "/rate}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity rateRecipe(@RequestBody @Valid RateRecipeDTO request){
         final RateRecipe rating = new RateRecipe(request);
@@ -48,24 +57,33 @@ public class SocialController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/like}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity likeRecipe(@RequestBody @Valid LikeDTO request){
-        final LikeRecipe liking = new LikeRecipe(request);
+    /**
+     * Pour liker une recette
+     **/
+    @PostMapping(value = "/like/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity likeRecipe(@PathVariable(value="id") String recipeId){
+        final LikeRecipe liking = new LikeRecipe(recipeId);
         commandBus.send(liking);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/unlike}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity unlikeRecipe(@RequestBody @Valid LikeDTO request){
-        final UnlikeRecipe unliking = new UnlikeRecipe(request);
+    /**
+     * Pour retirer le like d'une recette
+     **/
+    @PostMapping(value = "/unlike/{id}}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity unlikeRecipe(@PathVariable(value="id") String recipeId){
+        final UnlikeRecipe unliking = new UnlikeRecipe(recipeId);
         commandBus.send(unliking);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/recipesocial", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RecipesSocialDTO> getRecipeSocial(){
-        final RetrieveRecipesSocial retrieveRecipesSocial = new RetrieveRecipesSocial();
-        final RecipesSocialDTO result = queryBus.send(retrieveRecipesSocial);
+    /**
+     * Pour récuperer la partie social d'une recette
+     **/
+    @GetMapping(value = "/recipesocial/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<RecipeSocialDTO> getRecipeSocial(@PathVariable(value="id") String recipeId){
+        final RetrieveRecipesSocial retrieveRecipesSocial = new RetrieveRecipesSocial(recipeId);
+        final RecipeSocialDTO result = queryBus.send(retrieveRecipesSocial);
         return ResponseEntity.ok(result);
     }
 }
