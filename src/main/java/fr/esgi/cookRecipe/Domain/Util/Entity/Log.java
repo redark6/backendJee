@@ -20,8 +20,8 @@ public class Log extends AbstractPersistable {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "id_recipe")
-    private String idRecipe;
+    @Column(name = "id_element") // could be a recipe or a product
+    private String idElement;
 
     @Column(name = "entitled")
     private String entitled;

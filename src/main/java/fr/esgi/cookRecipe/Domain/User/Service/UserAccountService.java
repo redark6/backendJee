@@ -1,6 +1,5 @@
 package fr.esgi.cookRecipe.Domain.User.Service;
 
-import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
 import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import fr.esgi.cookRecipe.Domain.User.Repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;

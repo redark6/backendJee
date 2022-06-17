@@ -1,6 +1,5 @@
 package fr.esgi.cookRecipe.Domain.Product.Repository;
 
-import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
 import org.springframework.stereotype.Repository;
 import fr.esgi.cookRecipe.Domain.Product.Entity.NutriScore;
 import org.springframework.data.jpa.repository.JpaRepository;

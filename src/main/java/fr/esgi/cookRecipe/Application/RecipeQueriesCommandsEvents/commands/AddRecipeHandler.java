@@ -9,7 +9,6 @@ import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.AddRecipeDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeProductQuantityDTO;
 import kernel.CommandHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +20,6 @@ public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 	private final RecipeService recipeService;
 	private final UserAccountService userAccountService;
 
-	@Autowired
 	public AddRecipeHandler(ProductService productService, RecipeService recipeService, UserAccountService userAccountService) {
 		this.productService = productService;
 		this.recipeService = recipeService;
@@ -38,7 +36,7 @@ public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 		recipe.setPrice(recipeDTO.price);
 		recipe.setProducts(products);
 		this.recipeService.addRecipe(recipe);
-		this.userAccountService.
+		//this.userAccountService.
 		return null;
     }
 

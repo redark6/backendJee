@@ -31,10 +31,6 @@ public class ProductService {
         return Streamable.of(products).toList();
     }
 
-    public List<Product> getPaginatedProductList(Pageable pagination) {
-        return this.productRepository.findAll(pagination).getContent();
-    }
-
     public Product getProductById(UUID id) {
         Optional<Product> product = this.productRepository.findById(id);
         if(product.isEmpty()){
@@ -44,7 +40,15 @@ public class ProductService {
     }
 
     public List<Product> getProductsByName(String name, Pageable pagination) {
-        return this.productRepository.findProductByNameContaining(name, pagination).getContent();
+        return this.productRepository.findProductByNameContainingOrderByNameAsc(name, pagination).getContent();
+    }
+
+    public List<Product> getMostResearchedProductsByName(String name, Pageable pagination) {
+        return this.productRepository.findProductByNameContainingOrderByNameAsc(name, pagination).getContent();
+    }
+
+    public List<Product> getNeverResearchedProductsByName(String name, Pageable pagination) {
+        return this.productRepository.findProductByNameContainingOrderByNameAsc(name, pagination).getContent();
     }
 
     public void deleteProductById(UUID id) {

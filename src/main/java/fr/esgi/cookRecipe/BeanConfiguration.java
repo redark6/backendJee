@@ -27,6 +27,7 @@ import fr.esgi.cookRecipe.Domain.User.Repository.UserAccountRepository;
 import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import kernel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -42,64 +43,46 @@ import java.util.Map;
 public class BeanConfiguration {
 
     @Autowired
-    UserAccountRepository userAccountRepository;
-    MeasureUniteRepository measureUniteRepository;
-    NutriScoreRepository nutriScoreRepository;
-    ProductRepository productRepository;
-    RecipeRepository recipeRepository;
-    CategoryRepository categoryRepository;
-    CommentRepository commentRepository;
-    LikeRepository likeRepository;
-    RateRepository rateRepository;
-    UserCommentRecipeRepository userCommentRecipeRepository;
+    private ApplicationContext context;
 
-    @Bean
-    public JdbcUserDetailsManager jdbcUserDetailsManager() {
-        return new JdbcUserDetailsManager();
-    }
-    @Bean
-    public BCryptPasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    @Bean
     public UserAccountService userAccountService() {
-        return new UserAccountService(userAccountRepository,jdbcUserDetailsManager(),bcryptPasswordEncoder());
+        return this.context.getBean(UserAccountService.class);
     }
-    @Bean
+
     public MeasureUniteService measureUniteService() {
-        return new MeasureUniteService(measureUniteRepository);
+        return this.context.getBean(MeasureUniteService.class);
     }
-    @Bean
+
     public NutriScoreService nutriScoreService() {
-        return new NutriScoreService(nutriScoreRepository);
+        return this.context.getBean(NutriScoreService.class);
     }
-    @Bean
+
     public ProductService productService() {
-        return new ProductService(productRepository);
+        return this.context.getBean(ProductService.class);
     }
-    @Bean
+
     public RecipeService recipeService() {
-        return new RecipeService(recipeRepository);
+        return this.context.getBean(RecipeService.class);
     }
-    @Bean
+
     public CategoryService categoryService() {
-        return new CategoryService(categoryRepository);
+        return this.context.getBean(CategoryService.class);
     }
-    @Bean
+
     public CommentService commentService() {
-        return new CommentService(commentRepository);
+        return this.context.getBean(CommentService.class);
     }
-    @Bean
+
     public LikeService likeService() {
-        return new LikeService(likeRepository);
+        return this.context.getBean(LikeService.class);
     }
-    @Bean
+
     public RateService rateService() {
-        return new RateService(rateRepository);
+        return this.context.getBean(RateService.class);
     }
-    @Bean
+
     public UserCommentRecipeService userCommentRecipeService() {
-        return new UserCommentRecipeService(userCommentRecipeRepository);
+        return this.context.getBean(UserCommentRecipeService.class);
     }
 
     @Bean

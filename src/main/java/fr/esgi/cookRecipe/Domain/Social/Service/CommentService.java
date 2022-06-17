@@ -2,32 +2,29 @@ package fr.esgi.cookRecipe.Domain.Social.Service;
 
 import fr.esgi.cookRecipe.Domain.Social.Repository.CommentRepository;
 import fr.esgi.cookRecipe.Domain.Social.Entity.Comment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import kernel.NoSuchEntityException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    @Autowired
     public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 
-    public Comment getCommentById(UUID id) throws Exception {
+    public Comment getCommentById(UUID id) {
         Optional<Comment> comment = this.commentRepository.findById(id);
         if(comment.isEmpty()){
-            throw new Exception("");
+            throw NoSuchEntityException.withIdAndElem(id,"comment");
         }
         return comment.get();
     }
 
     public List<Comment> getCommentsByRecipe(UUID recipeId) {
-        this.commentRepository.
+        return  null;//this.commentRepository.
     }
 
     public void addComment(Comment comment) {

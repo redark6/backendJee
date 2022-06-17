@@ -2,7 +2,6 @@ package fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.commands;
 
 import fr.esgi.cookRecipe.Domain.Product.Service.ProductService;
 import kernel.CommandHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
@@ -10,7 +9,6 @@ public class DeleteProductHandler implements CommandHandler<DeleteProductById, V
 
     private final ProductService productService;
 
-    @Autowired
     public DeleteProductHandler(ProductService productService) {
         this.productService = productService;
     }

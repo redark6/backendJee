@@ -6,7 +6,6 @@ import fr.esgi.cookRecipe.Application.ProductQueriesCommandsEvents.commands.Dele
 import fr.esgi.cookRecipe.Exposition.ProductDTO.*;
 import kernel.CommandBus;
 import kernel.QueryBus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,6 @@ public class ProductController {
     private final CommandBus commandBus;
     private final QueryBus queryBus;
 
-    @Autowired
     public ProductController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;

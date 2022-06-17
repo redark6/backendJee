@@ -4,7 +4,6 @@ import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
 import fr.esgi.cookRecipe.Domain.Social.Entity.UserLikesRecipe;
 import fr.esgi.cookRecipe.Domain.Social.Service.LikeService;
 import kernel.CommandHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
@@ -15,7 +14,6 @@ public class LikeRecipeHandler implements CommandHandler<LikeRecipe, Void> {
     private final LikeService likeService;
     private final RecipeService recipeService;
 
-    @Autowired
     public LikeRecipeHandler(LikeService likeService, RecipeService recipeService) {
         this.likeService = likeService;
         this.recipeService = recipeService;

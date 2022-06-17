@@ -4,7 +4,6 @@ import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import fr.esgi.cookRecipe.Exposition.UserDTO.CreateAccountDTO;
 import kernel.CommandHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -15,11 +14,11 @@ public class CreateAccountHandler implements CommandHandler<CreateAccount, Void>
 
 	private final UserAccountService userAccountService;
 
-	@Autowired
 	public CreateAccountHandler(UserAccountService userAccountService) {
 		this.userAccountService = userAccountService;
 	}
 
+	@Override
     public Void handle(CreateAccount command) {
 		CreateAccountDTO dto = command.createAccountDTO;;
 		List<GrantedAuthority> grntdAuths = List.of(new SimpleGrantedAuthority("USER"));

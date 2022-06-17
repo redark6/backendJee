@@ -5,7 +5,6 @@ import fr.esgi.cookRecipe.Domain.Social.Entity.UserCommentsRecipe;
 import fr.esgi.cookRecipe.Domain.Social.Service.CommentService;
 import fr.esgi.cookRecipe.Domain.Social.Service.UserCommentRecipeService;
 import kernel.CommandHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Date;
@@ -16,7 +15,6 @@ public class AddCommentRecipeHandler implements CommandHandler<AddCommentRecipe,
     private final CommentService commentService;
     private final UserCommentRecipeService userCommentRecipeService;
 
-    @Autowired
     public AddCommentRecipeHandler(CommentService commentService, UserCommentRecipeService userCommentRecipeService) {
         this.commentService = commentService;
         this.userCommentRecipeService = userCommentRecipeService;
