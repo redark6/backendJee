@@ -13,17 +13,11 @@ import fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.queries.Retrie
 import fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.queries.RetrieveRecipesSocialHandler;
 import fr.esgi.cookRecipe.Application.UserQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.Application.UserQueriesCommandsEvents.queries.*;
-import fr.esgi.cookRecipe.Domain.Product.Repository.MeasureUniteRepository;
-import fr.esgi.cookRecipe.Domain.Product.Repository.NutriScoreRepository;
-import fr.esgi.cookRecipe.Domain.Product.Repository.ProductRepository;
-import fr.esgi.cookRecipe.Domain.Product.Service.MeasureUniteService;
+import fr.esgi.cookRecipe.Domain.Util.Service.MeasureUniteService;
 import fr.esgi.cookRecipe.Domain.Product.Service.NutriScoreService;
 import fr.esgi.cookRecipe.Domain.Product.Service.ProductService;
-import fr.esgi.cookRecipe.Domain.Recipe.Repository.RecipeRepository;
 import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
-import fr.esgi.cookRecipe.Domain.Social.Repository.*;
 import fr.esgi.cookRecipe.Domain.Social.Service.*;
-import fr.esgi.cookRecipe.Domain.User.Repository.UserAccountRepository;
 import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import kernel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +25,20 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Configuration
-@EnableScheduling
 public class BeanConfiguration {
+/*
+    private final ApplicationContext context;
 
     @Autowired
-    private ApplicationContext context;
+    public BeanConfiguration(ApplicationContext context){
+        this.context = context;
+    }
 
     public UserAccountService userAccountService() {
         return this.context.getBean(UserAccountService.class);
@@ -143,4 +138,5 @@ public class BeanConfiguration {
 
         return new SimpleQueryBus(queryHandlerMap);
     }
+ */
 }

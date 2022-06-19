@@ -1,6 +1,7 @@
 package fr.esgi.cookRecipe.Domain.Social.Entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -11,9 +12,13 @@ import java.util.UUID;
 @Table(name = "user_comments_recipe")
 public class UserCommentsRecipe extends AbstractPersistable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
+    @EmbeddedId
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "user_id")

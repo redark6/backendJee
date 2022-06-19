@@ -1,4 +1,4 @@
-package fr.esgi.cookRecipe.Domain.Product.Repository;
+package fr.esgi.cookRecipe.Domain.Util.Repository;
 
 import fr.esgi.cookRecipe.Domain.Util.Entity.MeasureUnit;
 import org.springframework.data.jpa.repository.JpaRepository;

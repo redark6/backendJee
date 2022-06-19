@@ -1,6 +1,7 @@
 package fr.esgi.cookRecipe.Domain.Recipe.Entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -12,9 +13,13 @@ import java.util.UUID;
 @Table(name = "recipe")
 public class Recipe extends AbstractPersistable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
+    @EmbeddedId
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "name")
@@ -29,7 +34,7 @@ public class Recipe extends AbstractPersistable {
     @Column(name = "price")
     private double price;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = RecipeProductQuantity.class)
     @JoinColumn(name = "product_quantity")
     private List<RecipeProductQuantity> products;
 

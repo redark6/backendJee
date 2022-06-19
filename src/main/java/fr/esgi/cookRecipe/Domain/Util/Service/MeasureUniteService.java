@@ -1,7 +1,7 @@
-package fr.esgi.cookRecipe.Domain.Product.Service;
+package fr.esgi.cookRecipe.Domain.Util.Service;
 
-import fr.esgi.cookRecipe.Domain.Product.Repository.MeasureUniteRepository;
 import fr.esgi.cookRecipe.Domain.Util.Entity.MeasureUnit;
+import fr.esgi.cookRecipe.Domain.Util.Repository.MeasureUniteRepository;
 import kernel.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

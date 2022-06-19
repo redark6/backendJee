@@ -106,8 +106,4 @@ public class EntityToDTOSerializer {
                 userAccount -> userToUserDTO(userAccount)
         ).collect(Collectors.toList()));
     }
-
-
-
-
 }
