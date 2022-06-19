@@ -2,13 +2,17 @@ package fr.esgi.cookRecipe.Domain.Social.Service;
 
 import fr.esgi.cookRecipe.Domain.Social.Entity.UserRatesRecipe;
 import fr.esgi.cookRecipe.Domain.Social.Repository.RateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class RateService {
     private final RateRepository rateRepository;
 
+    @Autowired
     public RateService(RateRepository rateRepository) {
         this.rateRepository = rateRepository;
     }

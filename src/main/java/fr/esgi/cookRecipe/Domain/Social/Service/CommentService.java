@@ -3,14 +3,18 @@ package fr.esgi.cookRecipe.Domain.Social.Service;
 import fr.esgi.cookRecipe.Domain.Social.Repository.CommentRepository;
 import fr.esgi.cookRecipe.Domain.Social.Entity.Comment;
 import kernel.NoSuchEntityException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class CommentService {
     private final CommentRepository commentRepository;
 
+    @Autowired
     public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }

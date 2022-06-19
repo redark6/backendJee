@@ -13,6 +13,6 @@ public interface RecipeRepository extends PagingAndSortingRepository<Recipe, UUI
     List<Recipe> getRecipesByName(String name);
 
     //select * from recipes where
-    List<Recipe> getRecipesByPro(String name);
+    //List<Recipe> getRecipesByPro(String name);
     //List<Recipe> getRecipesBy(String name);
 }

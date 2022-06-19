@@ -16,14 +16,16 @@ import javax.validation.Valid;
 @RequestMapping("product")
 public class ProductController {
 
-    private final CommandBus commandBus;
-    private final QueryBus queryBus;
+    private  CommandBus commandBus;
+    private  QueryBus queryBus;
 
     public ProductController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;
     }
 
+    public ProductController(){
+    }
     /**
      * Pour créer un produit
      **/

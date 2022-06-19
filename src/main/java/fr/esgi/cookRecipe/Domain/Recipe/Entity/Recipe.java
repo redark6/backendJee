@@ -2,7 +2,6 @@ package fr.esgi.cookRecipe.Domain.Recipe.Entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,9 +10,9 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "recipe")
-public class Recipe extends AbstractPersistable {
+public class Recipe {
 
-    @EmbeddedId
+    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -34,8 +33,8 @@ public class Recipe extends AbstractPersistable {
     @Column(name = "price")
     private double price;
 
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = RecipeProductQuantity.class)
-    @JoinColumn(name = "product_quantity")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "products_quantity",referencedColumnName = "id")
     private List<RecipeProductQuantity> products;
 
     @Column(name = "nutri_score_id")

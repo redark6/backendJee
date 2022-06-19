@@ -25,14 +25,29 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Configuration
 public class BeanConfiguration {
-/*
+
+    @Autowired private DataSource dataSource;
+
+    @Bean
+    public JdbcUserDetailsManager jdbcUserDetailsManager() {
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bcryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     private final ApplicationContext context;
 
     @Autowired
@@ -138,5 +153,5 @@ public class BeanConfiguration {
 
         return new SimpleQueryBus(queryHandlerMap);
     }
- */
+
 }

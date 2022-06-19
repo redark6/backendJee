@@ -28,9 +28,9 @@ public class AddCommentRecipeHandler implements CommandHandler<AddCommentRecipe,
         comment.setPostedDate(new Date());
         UserCommentsRecipe userCommentsRecipe = new UserCommentsRecipe();
         userCommentsRecipe.setId(UUID.randomUUID());
-        userCommentsRecipe.setComment_id(commentId);
+        userCommentsRecipe.setCommentId(commentId);
         userCommentsRecipe.setRecipeId(commentId);
-        userCommentsRecipe.setUser_id(SecurityContextHolder.getContext().getAuthentication().getName());
+        userCommentsRecipe.setUserId(SecurityContextHolder.getContext().getAuthentication().getName());
         this.commentService.addComment(comment);
         this.userCommentRecipeService.addCommentRecipe(userCommentsRecipe);
         return null;

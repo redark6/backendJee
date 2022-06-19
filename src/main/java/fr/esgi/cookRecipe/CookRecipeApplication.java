@@ -10,18 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
-@EnableJpaRepositories(basePackages = "fr.esgi.cookRecipe")
-@EnableTransactionManagement
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @SpringBootApplication
 public class CookRecipeApplication {
-
-	@Bean(name="entityManagerFactory")
-	public LocalSessionFactoryBean sessionFactory() {
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		return sessionFactory;
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(CookRecipeApplication.class, args);

@@ -17,12 +17,15 @@ import javax.validation.Valid;
 @RequestMapping("recipe")
 public class RecipeController {
 
-    private final CommandBus commandBus;
-    private final QueryBus queryBus;
+    private  CommandBus commandBus;
+    private  QueryBus queryBus;
 
     public RecipeController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;
+    }
+
+    public RecipeController(){
     }
 
     /**

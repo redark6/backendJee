@@ -1,10 +1,8 @@
 package fr.esgi.cookRecipe.Domain.User.Entity;
 
-import fr.esgi.cookRecipe.Domain.Product.Entity.NutriScore;
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,9 +12,9 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "user_account")
-public class UserAccount extends AbstractPersistable {
+public class UserAccount {
 
-    @EmbeddedId
+    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -31,8 +29,8 @@ public class UserAccount extends AbstractPersistable {
     @Column(name = "email", unique = true)
     private String email;
 
-    @OneToMany(targetEntity = Recipe.class)
-    @JoinColumn(name = "recipies")
+    @OneToMany
+    @JoinColumn(name = "recipies",referencedColumnName = "id")
     private List<Recipe> recipies;
 
     @Column(name = "inscription_date", updatable = false)

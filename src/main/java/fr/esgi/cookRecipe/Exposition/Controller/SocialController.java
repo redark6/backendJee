@@ -17,18 +17,21 @@ import javax.validation.Valid;
 @RequestMapping("social")
 public class SocialController {
 
-    private final CommandBus commandBus;
-    private final QueryBus queryBus;
+    private  CommandBus commandBus;
+    private  QueryBus queryBus;
 
     public SocialController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;
     }
 
+    public SocialController(){
+    }
+
     /**
      * Pour commenter une recette
      **/
-    @PostMapping(value = "/comment}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/comment",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity commentRecipe(@RequestBody @Valid AddCommentRecipeDTO request){
         final AddCommentRecipe addCommentRecipe = new AddCommentRecipe(request);
         commandBus.send(addCommentRecipe);
@@ -48,7 +51,7 @@ public class SocialController {
     /**
      * Pour évaluer une recette
      **/
-    @PostMapping(value = "/rate}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/rate",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity rateRecipe(@RequestBody @Valid RateRecipeDTO request){
         final RateRecipe rating = new RateRecipe(request);
         commandBus.send(rating);
@@ -68,7 +71,7 @@ public class SocialController {
     /**
      * Pour retirer le like d'une recette
      **/
-    @PostMapping(value = "/unlike/{id}}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/unlike/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity unlikeRecipe(@PathVariable(value="id") String recipeId){
         final UnlikeRecipe unliking = new UnlikeRecipe(recipeId);
         commandBus.send(unliking);

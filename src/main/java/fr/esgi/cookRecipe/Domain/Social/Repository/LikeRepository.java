@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface LikeRepository extends JpaRepository<UserLikesRecipe, UUID> {
-    Optional<UserLikesRecipe> findUserLikesRecipeByRecipeIdAndUser_id(UUID recipeId, String userId);
+    Optional<UserLikesRecipe> findUserLikesRecipeByRecipeIdAndUserId(UUID recipeId, String userId);
     long countByRecipeIdAndLikedTrue(UUID recipeId);
 }

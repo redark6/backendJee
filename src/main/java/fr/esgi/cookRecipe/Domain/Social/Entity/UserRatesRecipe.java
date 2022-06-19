@@ -2,7 +2,6 @@ package fr.esgi.cookRecipe.Domain.Social.Entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -10,9 +9,9 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "user_rates_recipe")
-public class UserRatesRecipe extends AbstractPersistable {
+public class UserRatesRecipe {
 
-    @EmbeddedId
+    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",

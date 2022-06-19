@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface UserCommentRecipeRepository extends JpaRepository<UserCommentsRecipe, UUID> {
-    void deleteUserCommentsRecipeByComment_id(UUID commentId);
-    long countUserCommentsRecipeByUser_id(UUID commentId);
+    void deleteUserCommentsRecipeByCommentId(UUID commentId);
+    long countUserCommentsRecipeByUserId(UUID commentId);
 }

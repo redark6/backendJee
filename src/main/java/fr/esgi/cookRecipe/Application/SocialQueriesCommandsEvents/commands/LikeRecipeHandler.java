@@ -31,7 +31,7 @@ public class LikeRecipeHandler implements CommandHandler<LikeRecipe, Void> {
             userLikesRecipe = new UserLikesRecipe();
             userLikesRecipe.setId(UUID.randomUUID());
             userLikesRecipe.setRecipeId(recipeId);
-            userLikesRecipe.setUser_id(userId);
+            userLikesRecipe.setUserId(userId);
         }
         userLikesRecipe.setLiked(true);
         this.likeService.putlikeRecipe(userLikesRecipe);

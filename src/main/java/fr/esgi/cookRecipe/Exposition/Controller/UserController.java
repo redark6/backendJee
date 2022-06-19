@@ -19,18 +19,20 @@ import javax.validation.Valid;
 @RequestMapping("user")
 public class UserController {
 
-    private final CommandBus commandBus;
-    private final QueryBus queryBus;
+    private  CommandBus commandBus;
+    private  QueryBus queryBus;
 
     public UserController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;
     }
 
+    public UserController(){
+    }
     /**
      * Pour créer un compte
      **/
-    @PostMapping(value = "/create}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity createAccount(@RequestBody @Valid CreateAccountDTO request){
         final CreateAccount createAccount = new CreateAccount(request);
         commandBus.send(createAccount);

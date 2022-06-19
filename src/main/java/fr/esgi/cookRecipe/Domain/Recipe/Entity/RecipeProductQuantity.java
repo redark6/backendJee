@@ -3,7 +3,6 @@ package fr.esgi.cookRecipe.Domain.Recipe.Entity;
 import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -11,9 +10,9 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "recipe_product_quantity")
-public class RecipeProductQuantity extends AbstractPersistable {
+public class RecipeProductQuantity {
 
-    @EmbeddedId
+    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -22,8 +21,8 @@ public class RecipeProductQuantity extends AbstractPersistable {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @ManyToOne(targetEntity = Product.class)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "product_id",referencedColumnName = "id")
     private Product product;
 
     @Column(name = "quantity") // in grams for weight and unit for unit measurable product

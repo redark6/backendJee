@@ -3,14 +3,18 @@ package fr.esgi.cookRecipe.Domain.Social.Service;
 import fr.esgi.cookRecipe.Domain.Social.Entity.Category;
 import fr.esgi.cookRecipe.Domain.Social.Repository.CategoryRepository;
 import kernel.NoSuchEntityException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
+    @Autowired
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
