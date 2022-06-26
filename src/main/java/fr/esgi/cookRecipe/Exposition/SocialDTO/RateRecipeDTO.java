@@ -16,6 +16,6 @@ public class RateRecipeDTO {
     @NotEmpty
     @Min(value = 0L)
     @Max(value = 5L)
-    public double rateValue;
+    public int rateValue;
 
 }

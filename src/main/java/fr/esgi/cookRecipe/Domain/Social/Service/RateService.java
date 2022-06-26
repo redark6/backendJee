@@ -1,10 +1,14 @@
 package fr.esgi.cookRecipe.Domain.Social.Service;
 
-import fr.esgi.cookRecipe.Domain.Social.Entity.UserRatesRecipe;
+import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Category;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Rate;
 import fr.esgi.cookRecipe.Domain.Social.Repository.RateRepository;
+import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,20 +21,20 @@ public class RateService {
         this.rateRepository = rateRepository;
     }
 
-    public void putRate(UserRatesRecipe userRatesRecipe){
+    public void putRate(Rate userRatesRecipe){
         this.saveRate(userRatesRecipe);
     }
 
-    /*
-    public Long getRecipeLikeScore(UUID recipeId){
-        return this.rateRepository.countByRecipeIdAndLikedTrue(recipeId);
-    }
-*/
-    public Optional<UserRatesRecipe> findUserRateScore(UUID recipeId, String userId){
-        return this.rateRepository.findUserRatesRecipeByRecipeIdAndUserId(recipeId, userId);
+
+    public List<Rate> getRecipeCategoryRates(Recipe recipe, Category category){
+        return this.rateRepository.findRatesByRecipeAndCategory(recipe, category);
     }
 
-    private void saveRate(UserRatesRecipe userRatesRecipe) {
+    public Optional<Rate> findUserRecipeCategoryRateScore(UserAccount user, Recipe recipe, Category category){
+        return this.rateRepository.findUserRatesRecipeByUserAndRecipeAndCategory(user, recipe, category);
+    }
+
+    private void saveRate(Rate userRatesRecipe) {
         this.rateRepository.save(userRatesRecipe);
     }
 }

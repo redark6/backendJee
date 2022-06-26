@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
@@ -91,10 +90,6 @@ public class BeanConfiguration {
         return this.context.getBean(RateService.class);
     }
 
-    public UserCommentRecipeService userCommentRecipeService() {
-        return this.context.getBean(UserCommentRecipeService.class);
-    }
-
     @Bean
     public EventDispatcher<Event> eventEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listenerMap = new HashMap<>();
@@ -111,11 +106,10 @@ public class BeanConfiguration {
 
         commandHandlerMap.put(AddRecipe.class, new AddRecipeHandler(productService(),recipeService(),userAccountService()));
 
-        commandHandlerMap.put(AddCommentRecipe.class, new AddCommentRecipeHandler(commentService(),userCommentRecipeService()));
-        commandHandlerMap.put(DeleteCommentRecipe.class, new DeleteCommentRecipeHandler(commentService(),userCommentRecipeService()));
-        commandHandlerMap.put(LikeRecipe.class, new LikeRecipeHandler(likeService(), recipeService()));
-        commandHandlerMap.put(RateRecipe.class, new RateRecipeHandler(rateService(),categoryService(),recipeService()));
-        commandHandlerMap.put(UnlikeRecipe.class, new UnlikeRecipeHandler(likeService(), recipeService()));
+        commandHandlerMap.put(AddCommentRecipe.class, new AddCommentRecipeHandler(userAccountService(),commentService(),recipeService()));
+        commandHandlerMap.put(DeleteCommentRecipe.class, new DeleteCommentRecipeHandler(commentService()));
+        commandHandlerMap.put(LikeRecipe.class, new LikeRecipeHandler(likeService(), recipeService(), userAccountService()));
+        commandHandlerMap.put(RateRecipe.class, new RateRecipeHandler(rateService(),categoryService(),recipeService(), userAccountService()));
 
         commandHandlerMap.put(CreateAccount.class, new CreateAccountHandler(userAccountService()));
         commandHandlerMap.put(UpdateMail.class, new UpdateMailHandler(userAccountService()));
@@ -143,12 +137,12 @@ public class BeanConfiguration {
         queryHandlerMap.put(RetrieveRecipesByName.class, new RetrieveRecipesByNameHandler(recipeService()));
         queryHandlerMap.put(RetrieveRecipesByProductId.class, new RetrieveRecipesByProductIdHandler(recipeService()));
         queryHandlerMap.put(RetrieveRecipesByProductName.class, new RetrieveRecipesByProductNameHandler(recipeService()));
-        queryHandlerMap.put(RetrieveRecipesByUserId.class, new RetrieveRecipesByUserIdHandler(userAccountService()));
+        queryHandlerMap.put(RetrieveRecipesByUserId.class, new RetrieveRecipesByUserIdHandler(userAccountService(), recipeService()));
 
-        queryHandlerMap.put(RetrieveRecipesSocial.class, new RetrieveRecipesSocialHandler(rateService(),categoryService(),recipeService(),commentService(),userCommentRecipeService()));
+        queryHandlerMap.put(RetrieveRecipesSocial.class, new RetrieveRecipesSocialHandler(rateService(),categoryService(),recipeService(),commentService(), likeService(), userAccountService()));
 
-        queryHandlerMap.put(RetrieveUserById.class, new RetrieveUserByIdHandler(userAccountService()));
-        queryHandlerMap.put(RetrieveUserMe.class, new RetrieveUserMeHandler(userAccountService()));
+        queryHandlerMap.put(RetrieveUserById.class, new RetrieveUserByIdHandler(userAccountService(), recipeService(), commentService()));
+        queryHandlerMap.put(RetrieveUserMe.class, new RetrieveUserMeHandler(userAccountService(), recipeService(), commentService()));
         queryHandlerMap.put(RetrieveUsersByUserNameLike.class, new RetrieveUsersByUserNameLikeHandler(userAccountService()));
 
         return new SimpleQueryBus(queryHandlerMap);

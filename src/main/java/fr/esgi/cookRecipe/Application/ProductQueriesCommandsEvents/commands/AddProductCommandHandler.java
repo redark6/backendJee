@@ -28,7 +28,6 @@ public class AddProductCommandHandler implements CommandHandler<AddProduct, Void
 		NutriScore nutriScore = this.nutriScoreService.getNutrisScoreById(UUID.fromString(command.addProductDTO.nutriScoreId));
 		MeasureUnit measureUnit = this.measureUniteService.getMeasureUniteById(UUID.fromString(command.addProductDTO.uniteId));
 		Product product = new Product();
-		product.setId(null);
 		product.setName(command.addProductDTO.name);
 		product.setNutriScore(nutriScore);
 		product.setMesure(measureUnit);

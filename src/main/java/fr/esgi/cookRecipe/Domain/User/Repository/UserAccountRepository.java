@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface UserAccountRepository extends PagingAndSortingRepository<UserAccount, UUID> {
-
     Page<UserAccount> findUserAccountsByUsernameContaining(String username, Pageable pagination);
     Optional<UserAccount> findUserAccountByEmail(String email);
 }

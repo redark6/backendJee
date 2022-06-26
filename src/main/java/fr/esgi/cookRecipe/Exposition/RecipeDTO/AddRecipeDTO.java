@@ -20,7 +20,7 @@ public class AddRecipeDTO {
 
     @NotEmpty
     @Min(value = 1L)
-    public double price;
+    public int price;
 
     @NotBlank
     public List<RecipeProductQuantityDTO> products;

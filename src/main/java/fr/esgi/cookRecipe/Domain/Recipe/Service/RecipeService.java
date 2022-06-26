@@ -2,8 +2,10 @@ package fr.esgi.cookRecipe.Domain.Recipe.Service;
 
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
 import fr.esgi.cookRecipe.Domain.Recipe.Repository.RecipeRepository;
+import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import kernel.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,8 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public void addRecipe(Recipe recipe) {
-        this.saveRecipe(recipe);
+    public Recipe addRecipe(Recipe recipe) {
+        return this.saveRecipe(recipe);
     }
 
     public List<Recipe> getAllRecipes() {
@@ -42,23 +44,35 @@ public class RecipeService {
         return recipe.get();
     }
 
-    public List<Recipe> getRecipesByName(String name){
-        return this.recipeRepository.getRecipesByName(name);
+    public List<Recipe> getRecipesByName(String name, Pageable pagination){
+        Iterable<Recipe> recipes = this.recipeRepository.findAllByNameContaining(name, pagination);
+        return Streamable.of(recipes).toList();
     }
 
-    public List<Recipe> getRecipesByUserId() {
-        return null;
+    public List<Recipe> getRecipesByProductId(UUID id, Pageable pagination){
+        Iterable<Recipe> recipes = this.recipeRepository.findAllByProducts_Product_Id(id, pagination);
+        return Streamable.of(recipes).toList();
+    }
+
+    public List<Recipe> getRecipesByProductName(String name, Pageable pagination){
+        Iterable<Recipe> recipes = this.recipeRepository.findAllByProducts_Product_NameContaining(name, pagination);
+        return Streamable.of(recipes).toList();
+    }
+
+    public List<Recipe> getRecipesByUser(UserAccount user){
+        Iterable<Recipe> recipes = this.recipeRepository.findAllByUser(user);
+        return Streamable.of(recipes).toList();
+    }
+
+    public int getUserRecipeCount(UserAccount user) {
+        return this.recipeRepository.countByUser(user);
     }
 
     public void removeRecipeById(UUID id) {
         this.recipeRepository.delete(this.getRecipeById(id));
     }
 
-    public void recipeExist(UUID id){
-        this.getRecipeById(id);
-    }
-
-    private void saveRecipe(Recipe recipe){
-        this.recipeRepository.save(recipe);
+    private Recipe saveRecipe(Recipe recipe){
+        return this.recipeRepository.save(recipe);
     }
 }

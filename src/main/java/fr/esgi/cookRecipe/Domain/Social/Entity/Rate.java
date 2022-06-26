@@ -6,13 +6,12 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "comment")
-public class Comment {
+@Table(name = "rate_recipe")
+public class Rate {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -20,12 +19,12 @@ public class Comment {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "body")
-    private String body;
+    @Column(name = "rate")
+    private int rate;
 
-    @Column(name = "posted_date", updatable = false)
-    @Temporal(TemporalType.DATE)
-    private Date postedDate;
+    @ManyToOne
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id",referencedColumnName = "id")
@@ -34,5 +33,4 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private UserAccount user;
-
 }

@@ -2,6 +2,11 @@ package fr.esgi.cookRecipe.Domain.User.Service;
 
 import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import fr.esgi.cookRecipe.Domain.User.Repository.UserAccountRepository;
+import fr.esgi.cookRecipe.Infrastructure.Exception.MailAlreadyTakenException;
+import fr.esgi.cookRecipe.Infrastructure.Exception.NoUserFormMailException;
+import fr.esgi.cookRecipe.Infrastructure.Exception.SameMailException;
+import fr.esgi.cookRecipe.Infrastructure.Exception.SamePasswordException;
+import kernel.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Streamable;
@@ -36,9 +41,9 @@ public class UserAccountService {
     }
 
     public UserAccount getUserById(UUID id){
-        Optional<UserAccount>  userAccount =  this.userAccountRepository.findById(id);
+        Optional<UserAccount> userAccount = this.userAccountRepository.findById(id);
         if(userAccount.isEmpty()){
-            // throw account not found
+            throw NoSuchEntityException.withIdAndElem(id,"user account");
         }
         return  userAccount.get();
     }
@@ -81,9 +86,13 @@ public class UserAccountService {
     public UserAccount getUserAccountByEmail(String email){
         Optional<UserAccount>  userAccount = this.userAccountRepository.findUserAccountByEmail(email);
         if(userAccount.isEmpty()){
-            // throw account not found
+            throw NoUserFormMailException.withMail(email);
         }
         return userAccount.get();
+    }
+
+    public UserAccount getMyUserAccount(){
+        return this.getUserAccountByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     private void saveUserAccount(UserAccount userAccount){
@@ -92,23 +101,23 @@ public class UserAccountService {
 
     private void checkPasswordAreDifferent(String newPassword, String oldpassword){
         if (this.bcryptPasswordEncoder.matches(newPassword, oldpassword)) {
-            //throw new Exception("error existe déjà : " + newPassword);
+            throw SamePasswordException.of();
         }
     }
 
     private void checkMailAreDifferent(String newEmail, String oldEmail){
         if(oldEmail.equals(newEmail)){
-            // throw exception meme mail
+            throw SameMailException.withMail(newEmail);
         }
     }
 
     private void checkMailNotAlreadyTaken(String email){
         try {
             this.getUserAccountByEmail(email);
-            // throw excetion mail deja pris
         } catch (Exception e){
-            // email pas déjas pris donc good
+            return;
         }
+        throw MailAlreadyTakenException.withMail(email);
     }
 
 }

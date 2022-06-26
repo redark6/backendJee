@@ -3,6 +3,9 @@ package fr.esgi.cookRecipe.Application;
 import fr.esgi.cookRecipe.Domain.Product.Entity.NutriScore;
 import fr.esgi.cookRecipe.Domain.Product.Entity.Product;
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Category;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Comment;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Rate;
 import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import fr.esgi.cookRecipe.Exposition.ProductDTO.NutriScoreDTO;
 import fr.esgi.cookRecipe.Exposition.ProductDTO.NutriScoresDTO;
@@ -12,11 +15,16 @@ import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeProductDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeProductsDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipesDTO;
+import fr.esgi.cookRecipe.Exposition.SocialDTO.*;
 import fr.esgi.cookRecipe.Exposition.UserDTO.UserDTO;
+import fr.esgi.cookRecipe.Exposition.UserDTO.UserListItemDTO;
 import fr.esgi.cookRecipe.Exposition.UserDTO.UserMeDTO;
 import fr.esgi.cookRecipe.Exposition.UserDTO.UsersDTO;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EntityToDTOSerializer {
@@ -80,30 +88,82 @@ public class EntityToDTOSerializer {
         ).collect(Collectors.toList()));
     }
 
-    public static UserDTO userToUserDTO(UserAccount userAccount){
-        return UserDTO.of(
+    public static UserListItemDTO userToUserListItemDTO(UserAccount userAccount){
+        return UserListItemDTO.of(
                 userAccount.getId().toString(),
                 userAccount.getUsername(),
-                userAccount.getRecipies().size(),
-                5,
                 userAccount.getInscriptionDate().toString()
         );
     }
 
-    public static UserMeDTO userToUserMeDTO(UserAccount userAccount){
+    public static UserDTO userToUserDTO(UserAccount userAccount,int recipeNumber, int commentNumber){
+        return UserDTO.of(
+                userAccount.getId().toString(),
+                userAccount.getUsername(),
+                recipeNumber,
+                commentNumber,
+                userAccount.getInscriptionDate().toString()
+        );
+    }
+
+    public static UserMeDTO userToUserMeDTO(UserAccount userAccount,int recipeNumber, int commentNumber){
         return UserMeDTO.of(
                 userAccount.getId().toString(),
                 userAccount.getUsername(),
                 userAccount.getEmail(),
-                userAccount.getRecipies().size(),
-                5,
+                recipeNumber,
+                commentNumber,
                 userAccount.getInscriptionDate().toString()
         );
     }
 
     public static UsersDTO usersToUsersDTO(List<UserAccount> userAccounts){
         return UsersDTO.of(userAccounts.stream().map(
-                userAccount -> userToUserDTO(userAccount)
+                userAccount -> userToUserListItemDTO(userAccount)
         ).collect(Collectors.toList()));
     }
+
+    public static CommentDTO commentToCommentDTO(Comment comment, String userId){
+        return CommentDTO.of(
+                comment.getId().toString(),
+                comment.getBody(),
+                comment.getUser().getId().toString().equals(userId),
+                comment.getUser().getId().toString(),
+                comment.getUser().getUsername(),
+                comment.getPostedDate().toString()
+        );
+    }
+
+    public static CommentsDTO commentsToCommentsDTO(List<Comment> comments, String userId){
+        return CommentsDTO.of(comments.stream().map(
+                comment -> commentToCommentDTO(comment, userId)
+        ).collect(Collectors.toList()));
+    }
+
+    public static RatingsUserDTO ratingMapCategoryRatesTORatingsDTO(Map<Category, List<Rate>> categoryRatesMap, String userId){
+        List<RatingUserDTO> RatingsUserList = new ArrayList<RatingUserDTO>();
+        categoryRatesMap.forEach((k,v) -> {
+            RatingCategoryDTO category = categoryToRatingCategoryDTO(k);
+            Optional<Rate> userRating =  v.stream().filter(rate -> rate.getUser().getId().toString().equals(userId)).findAny();
+            double rateScore = v.stream().map(r -> r.getRate()).reduce(0, Integer::sum) / v.size();
+            RatingDTO ratingDTO = rateToRatingDTO(rateScore, category);
+            RatingUserDTO ratingUserDTO = categoryToRatingUserDTO(ratingDTO, userRating.isPresent(), userRating.isPresent() ? userRating.get().getRate() : 0);
+            RatingsUserList.add(ratingUserDTO);
+        });
+        return RatingsUserDTO.of(RatingsUserList);
+    }
+
+    public static RatingCategoryDTO categoryToRatingCategoryDTO(Category category){
+        return RatingCategoryDTO.of(category.getId().toString(),category.getName());
+    }
+
+    public static RatingDTO rateToRatingDTO(double rate,RatingCategoryDTO categoryDTO){
+        return RatingDTO.of(rate, categoryDTO);
+    }
+
+    public static RatingUserDTO categoryToRatingUserDTO(RatingDTO rating, boolean userRated, int userRating){
+        return RatingUserDTO.of(rating,userRated ,userRating);
+    }
+
+
 }

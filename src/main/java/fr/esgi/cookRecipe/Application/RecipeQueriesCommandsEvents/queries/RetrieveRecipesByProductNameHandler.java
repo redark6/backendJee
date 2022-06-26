@@ -21,7 +21,8 @@ public class RetrieveRecipesByProductNameHandler implements QueryHandler<Retriev
 	@Override
 	public RecipesDTO handle(RetrieveRecipesByProductName query) {
 		Pageable pageRequest = PageRequest.of(query.offset, query.limit);
-		List<Recipe> recipes = this.recipeService.getRecipesByName(query.productName);  // -> create query for product name
+		// call service custome to deduce name
+		List<Recipe> recipes = this.recipeService.getRecipesByProductName(query.productName,pageRequest);
 		return EntityToDTOSerializer.recipeToRecipeDTO(recipes);
 	}
 }

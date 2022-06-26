@@ -1,5 +1,6 @@
 package fr.esgi.cookRecipe.Domain.Recipe.Entity;
 
+import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,10 +15,7 @@ public class Recipe {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -30,12 +28,16 @@ public class Recipe {
     @Column(name = "execution_time") // in second
     private Long executionTime;
 
-    @Column(name = "price")
-    private double price;
+    @Column(name = "price") // in cents
+    private int price;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_quantity",referencedColumnName = "id")
     private List<RecipeProductQuantity> products;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    private UserAccount user;
 
     @Column(name = "nutri_score_id")
     public int getNutriScoreId() {

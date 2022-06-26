@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RetrieveRecipesByProductIdHandler implements QueryHandler<RetrieveRecipesByProductId, RecipesDTO> {
@@ -22,7 +23,7 @@ public class RetrieveRecipesByProductIdHandler implements QueryHandler<RetrieveR
     @Override
     public RecipesDTO handle(RetrieveRecipesByProductId query) {
         Pageable pageRequest = PageRequest.of(query.offset, query.limit);
-        List<Recipe> recipes = this.recipeService.getRecipesByName(query.productId); // -> create query for product id
+        List<Recipe> recipes = this.recipeService.getRecipesByProductId(UUID.fromString(query.productId), pageRequest);
         return EntityToDTOSerializer.recipeToRecipeDTO(recipes);
     }
 }

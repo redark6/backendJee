@@ -1,10 +1,12 @@
 package fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.commands;
 
+import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
 import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
-import fr.esgi.cookRecipe.Domain.Social.Entity.UserLikesRecipe;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Like;
 import fr.esgi.cookRecipe.Domain.Social.Service.LikeService;
+import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
+import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import kernel.CommandHandler;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -13,27 +15,28 @@ public class LikeRecipeHandler implements CommandHandler<LikeRecipe, Void> {
 
     private final LikeService likeService;
     private final RecipeService recipeService;
+    private final UserAccountService userAccountService;
 
-    public LikeRecipeHandler(LikeService likeService, RecipeService recipeService) {
+    public LikeRecipeHandler(LikeService likeService, RecipeService recipeService, UserAccountService userAccountService) {
         this.likeService = likeService;
         this.recipeService = recipeService;
+        this.userAccountService = userAccountService;
     }
 
     public Void handle(LikeRecipe command) {
-        UUID recipeId = UUID.fromString(command.recipeId);
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        this.recipeService.recipeExist(recipeId);
-        Optional<UserLikesRecipe> userLikesRecipeMaybe = this.likeService.findUserRecipeLike(recipeId,userId);
-        UserLikesRecipe userLikesRecipe;
+        Recipe recipe = this.recipeService.getRecipeById(UUID.fromString(command.recipeId));
+        UserAccount user = this.userAccountService.getMyUserAccount();
+        Optional<Like> userLikesRecipeMaybe = this.likeService.findUserRecipeLike(recipe,user);
+        Like userLikesRecipe;
         if(userLikesRecipeMaybe.isPresent()){
             userLikesRecipe = userLikesRecipeMaybe.get();
         }else{
-            userLikesRecipe = new UserLikesRecipe();
+            userLikesRecipe = new Like();
             userLikesRecipe.setId(UUID.randomUUID());
-            userLikesRecipe.setRecipeId(recipeId);
-            userLikesRecipe.setUserId(userId);
+            userLikesRecipe.setRecipe(recipe);
+            userLikesRecipe.setUser(user);
         }
-        userLikesRecipe.setLiked(true);
+        userLikesRecipe.setLiked(command.liked);
         this.likeService.putlikeRecipe(userLikesRecipe);
         return null;
     }

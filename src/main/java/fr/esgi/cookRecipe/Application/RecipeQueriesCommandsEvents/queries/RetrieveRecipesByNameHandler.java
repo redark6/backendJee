@@ -5,6 +5,8 @@ import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
 import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipesDTO;
 import kernel.QueryHandler;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,7 +20,9 @@ public class RetrieveRecipesByNameHandler implements QueryHandler<RetrieveRecipe
 
     @Override
     public RecipesDTO handle(RetrieveRecipesByName query) {
-        List<Recipe> recipes = this.recipeService.getRecipesByName(query.name);
+        Pageable pageRequest = PageRequest.of(query.offset, query.limit);
+        // call service custome to deduce name
+        List<Recipe> recipes = this.recipeService.getRecipesByName(query.name, pageRequest);
         return EntityToDTOSerializer.recipeToRecipeDTO(recipes);
     }
 }

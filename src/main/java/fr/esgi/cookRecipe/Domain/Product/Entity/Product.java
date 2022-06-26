@@ -14,10 +14,7 @@ public class Product {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -32,16 +29,4 @@ public class Product {
     @JoinColumn(name = "nutri_score_id",referencedColumnName = "id")
     private NutriScore nutriScore;
 
-    /*
-    public static int nutriScoreMapping(){
-        switch(nutriScore.getGrade()){
-            case 'A': return 5;
-            case 'B': return 4;
-            case 'C': return 3;
-            case 'D': return 2;
-            case 'E': return 1;
-            default: return -1;
-        }
-    }
-    */
 }

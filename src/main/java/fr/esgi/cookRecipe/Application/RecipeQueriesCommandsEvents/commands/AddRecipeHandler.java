@@ -5,6 +5,7 @@ import fr.esgi.cookRecipe.Domain.Product.Service.ProductService;
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.RecipeProductQuantity;
 import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
+import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.AddRecipeDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeProductQuantityDTO;
@@ -27,6 +28,7 @@ public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 	}
     
     public Void handle(AddRecipe command) {
+		UserAccount user = this.userAccountService.getMyUserAccount();
 		AddRecipeDTO recipeDTO = command.addRecipeDTO;
 		List<RecipeProductQuantity> products= recipeDTO.products.stream().map(product -> getProductItem(product)).collect(Collectors.toList());
 		Recipe recipe = new Recipe();
@@ -35,8 +37,8 @@ public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 		recipe.setExecutionTime(recipeDTO.executionTime);
 		recipe.setPrice(recipeDTO.price);
 		recipe.setProducts(products);
+		recipe.setUser(user);
 		this.recipeService.addRecipe(recipe);
-		//this.userAccountService.
 		return null;
     }
 

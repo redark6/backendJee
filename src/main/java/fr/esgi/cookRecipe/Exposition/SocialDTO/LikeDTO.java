@@ -2,26 +2,23 @@ package fr.esgi.cookRecipe.Exposition.SocialDTO;
 
 public class LikeDTO {
 
-    private double likeRate;
+    private double likeNumber;
     private boolean userLiked;
-    private double userLikingRate;
 
-    public static LikeDTO of(double likeRate, boolean userLiked, double userLikingRate) {
-        return new LikeDTO(likeRate, userLiked, userLikingRate);
+    public static LikeDTO of(long likeNumber, boolean userLiked) {
+        return new LikeDTO(likeNumber, userLiked);
     }
 
-    private LikeDTO(double likeRate, boolean userLiked, double userLikingRate) {
-        this.likeRate = likeRate;
+    private LikeDTO(long likeNumber, boolean userLiked) {
+        this.likeNumber = likeNumber;
         this.userLiked = userLiked;
-        this.userLikingRate = userLikingRate;
     }
 
     @Override
     public String toString() {
         return "LikeDTO{" +
-                "likeRate=" + likeRate +
+                "likeRate=" + likeNumber +
                 ", userLiked=" + userLiked +
-                ", userLikingRate=" + userLikingRate +
                 '}';
     }
 }

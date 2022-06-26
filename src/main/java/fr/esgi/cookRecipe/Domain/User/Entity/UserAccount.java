@@ -16,10 +16,7 @@ public class UserAccount {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -29,11 +26,8 @@ public class UserAccount {
     @Column(name = "email", unique = true)
     private String email;
 
-    @OneToMany
-    @JoinColumn(name = "recipies",referencedColumnName = "id")
-    private List<Recipe> recipies;
-
     @Column(name = "inscription_date", updatable = false)
     @Temporal(TemporalType.DATE)
     private Date inscriptionDate;
+
 }

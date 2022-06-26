@@ -5,13 +5,13 @@ import java.util.List;
 
 public class UsersDTO {
 
-    public final List<UserDTO> users;
+    public final List<UserListItemDTO> users;
 
-    public static UsersDTO of(List<UserDTO> users) {
+    public static UsersDTO of(List<UserListItemDTO> users) {
         return new UsersDTO(users);
     }
 
-    private UsersDTO(List<UserDTO> users) {
+    private UsersDTO(List<UserListItemDTO> users) {
         this.users = users;
     }
 }

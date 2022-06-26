@@ -63,7 +63,7 @@ public class SocialController {
      **/
     @PostMapping(value = "/like/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity likeRecipe(@PathVariable(value="id") String recipeId){
-        final LikeRecipe liking = new LikeRecipe(recipeId);
+        final LikeRecipe liking = new LikeRecipe(recipeId, true);
         commandBus.send(liking);
         return ResponseEntity.ok().build();
     }
@@ -73,8 +73,8 @@ public class SocialController {
      **/
     @PostMapping(value = "/unlike/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity unlikeRecipe(@PathVariable(value="id") String recipeId){
-        final UnlikeRecipe unliking = new UnlikeRecipe(recipeId);
-        commandBus.send(unliking);
+        final LikeRecipe liking = new LikeRecipe(recipeId, false);
+        commandBus.send(liking);
         return ResponseEntity.ok().build();
     }
 

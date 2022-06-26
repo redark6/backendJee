@@ -1,11 +1,14 @@
 package fr.esgi.cookRecipe.Application.SocialQueriesCommandsEvents.commands;
 
+import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
 import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
-import fr.esgi.cookRecipe.Domain.Social.Entity.UserRatesRecipe;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Category;
+import fr.esgi.cookRecipe.Domain.Social.Entity.Rate;
 import fr.esgi.cookRecipe.Domain.Social.Service.CategoryService;
 import fr.esgi.cookRecipe.Domain.Social.Service.RateService;
+import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
+import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
 import kernel.CommandHandler;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,33 +18,30 @@ public class RateRecipeHandler implements CommandHandler<RateRecipe, Void> {
     private final RateService rateService;
     private final CategoryService categoryService;
     private final RecipeService recipeService;
+    private final UserAccountService userAccountService;
 
-    public RateRecipeHandler(RateService rateService, CategoryService categoryService, RecipeService recipeService) {
+    public RateRecipeHandler(RateService rateService, CategoryService categoryService, RecipeService recipeService, UserAccountService userAccountService) {
         this.rateService = rateService;
         this.categoryService = categoryService;
         this.recipeService = recipeService;
+        this.userAccountService = userAccountService;
     }
 
     public Void handle(RateRecipe command) {
-        UUID recipeId = UUID.fromString(command.rateRecipeDTO.recipeId);
-        UUID categoryId = UUID.fromString(command.rateRecipeDTO.categoryId);
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        double rate = command.rateRecipeDTO.rateValue;
-        this.recipeService.recipeExist(recipeId);
-        this.categoryService.categoryExist(recipeId);
-
-        Optional<UserRatesRecipe> UserRatesRecipeMaybe = this.rateService.findUserRateScore(recipeId,userId);
-        UserRatesRecipe userRatesRecipe;
+        UserAccount user = this.userAccountService.getMyUserAccount();
+        Recipe recipe = this.recipeService.getRecipeById(UUID.fromString(command.rateRecipeDTO.recipeId));
+        Category category = this.categoryService.getCategoryById(UUID.fromString(command.rateRecipeDTO.categoryId));
+        Optional<Rate> UserRatesRecipeMaybe = this.rateService.findUserRecipeCategoryRateScore(user, recipe, category);
+        Rate userRatesRecipe;
         if(UserRatesRecipeMaybe.isPresent()){
             userRatesRecipe = UserRatesRecipeMaybe.get();
         }else{
-            userRatesRecipe = new UserRatesRecipe();
-            userRatesRecipe.setId(UUID.randomUUID());
-            userRatesRecipe.setRecipeId(recipeId);
-            userRatesRecipe.setUserId(userId);
-            userRatesRecipe.setCategoryId(categoryId);
+            userRatesRecipe = new Rate();
+            userRatesRecipe.setUser(user);
+            userRatesRecipe.setRecipe(recipe);
+            userRatesRecipe.setCategory(category);
         }
-        userRatesRecipe.setRate(rate);
+        userRatesRecipe.setRate(command.rateRecipeDTO.rateValue);
 
         this.rateService.putRate(userRatesRecipe);
         return null;
