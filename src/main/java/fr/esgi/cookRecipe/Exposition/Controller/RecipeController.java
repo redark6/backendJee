@@ -7,6 +7,7 @@ import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipesDTO;
 import kernel.CommandBus;
 import kernel.QueryBus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class RecipeController {
     private  CommandBus commandBus;
     private  QueryBus queryBus;
 
+    @Autowired
     public RecipeController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;

@@ -9,6 +9,7 @@ import fr.esgi.cookRecipe.Application.UserQueriesCommandsEvents.queries.Retrieve
 import fr.esgi.cookRecipe.Exposition.UserDTO.*;
 import kernel.CommandBus;
 import kernel.QueryBus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class UserController {
     private  CommandBus commandBus;
     private  QueryBus queryBus;
 
+    @Autowired
     public UserController(CommandBus commandBus, QueryBus queryBus){
         this.commandBus = commandBus;
         this.queryBus = queryBus;

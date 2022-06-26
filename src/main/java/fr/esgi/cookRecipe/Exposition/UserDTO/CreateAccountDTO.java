@@ -1,21 +1,23 @@
 package fr.esgi.cookRecipe.Exposition.UserDTO;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.Size;
 
 public class CreateAccountDTO {
 
-    @NotBlank
     @Email
+    @NotBlank
     public String email;
 
-    @NotBlank
     @Size(min = 5, max = 50)
+    @NotBlank
     public String userName;
 
-    @NotBlank
     @Size(min = 8, max = 32)
+    @NotBlank
     public String password;
 
 }
