@@ -62,8 +62,8 @@ public class RecipeController {
      * Pour recuperer une reccette par id
      **/
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RecipeDTO> getRecipeById(@PathVariable(value="id") String id){
-        final RetrieveRecipeById retrieveRecipeById = new RetrieveRecipeById(id);
+    public ResponseEntity<RecipeDTO> getRecipeById(@PathVariable(value="id") String id,@RequestParam(name = "research", required = false) String research){
+        final RetrieveRecipeById retrieveRecipeById = new RetrieveRecipeById(id,research);
         final RecipeDTO result = queryBus.send(retrieveRecipeById);
         return ResponseEntity.ok(result);
     }

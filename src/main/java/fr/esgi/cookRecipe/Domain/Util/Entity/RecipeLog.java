@@ -1,12 +1,11 @@
 package fr.esgi.cookRecipe.Domain.Util.Entity;
 
 import fr.esgi.cookRecipe.Domain.Recipe.Entity.Recipe;
-import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,17 +20,13 @@ public class RecipeLog {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
-    private UserAccount user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id",referencedColumnName = "id")
     private Recipe recipe;
 
-    @Column(name = "entitled")
-    private String entitled;
+    @Column(name = "count")
+    private long count;
 
-    @Column(name = "execution_date", updatable = false)
-    @Temporal(TemporalType.DATE)
-    private Date executionDate;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "researchs",referencedColumnName = "id")
+    private List<ResearchLog> researches;
 }

@@ -7,10 +7,14 @@ import fr.esgi.cookRecipe.Domain.Recipe.Entity.RecipeProductQuantity;
 import fr.esgi.cookRecipe.Domain.Recipe.Service.RecipeService;
 import fr.esgi.cookRecipe.Domain.User.Entity.UserAccount;
 import fr.esgi.cookRecipe.Domain.User.Service.UserAccountService;
+import fr.esgi.cookRecipe.Domain.Util.Entity.RecipeLog;
+import fr.esgi.cookRecipe.Domain.Util.Entity.ResearchLog;
+import fr.esgi.cookRecipe.Domain.Util.Service.LogService;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.AddRecipeDTO;
 import fr.esgi.cookRecipe.Exposition.RecipeDTO.RecipeProductQuantityDTO;
 import kernel.CommandHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,11 +24,13 @@ public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 	private final ProductService productService;
 	private final RecipeService recipeService;
 	private final UserAccountService userAccountService;
+	private final LogService logService;
 
-	public AddRecipeHandler(ProductService productService, RecipeService recipeService, UserAccountService userAccountService) {
+	public AddRecipeHandler(ProductService productService, RecipeService recipeService, UserAccountService userAccountService, LogService logService) {
 		this.productService = productService;
 		this.recipeService = recipeService;
 		this.userAccountService = userAccountService;
+		this.logService = logService;
 	}
     
     public Void handle(AddRecipe command) {
@@ -38,7 +44,12 @@ public class AddRecipeHandler implements CommandHandler<AddRecipe, Void> {
 		recipe.setPrice(recipeDTO.price);
 		recipe.setProducts(products);
 		recipe.setUser(user);
-		this.recipeService.addRecipe(recipe);
+		Recipe recipeSaved = this.recipeService.addRecipe(recipe);
+		RecipeLog recipeLog = new RecipeLog();
+		recipeLog.setRecipe(recipeSaved);
+		recipeLog.setCount(0);
+		recipeLog.setResearches(new ArrayList<ResearchLog>());
+		this.logService.saveRecipeLog(recipeLog);
 		return null;
     }
 

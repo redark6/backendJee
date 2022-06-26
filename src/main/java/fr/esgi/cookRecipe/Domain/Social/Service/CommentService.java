@@ -30,7 +30,7 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsByRecipe(Recipe recipe) {
-        return this.commentRepository.getAllByRecipe(recipe)
+        return this.commentRepository.getAllByRecipe(recipe);
     }
 
     public void addComment(Comment comment) {
@@ -42,7 +42,7 @@ public class CommentService {
     }
 
     public int getUserCommentCount(UserAccount user){
-        return this.commentRepository.countCommentsByUserAnd(user);
+        return this.commentRepository.countCommentsByUser(user);
     }
 
     private void saveComment(Comment comment) {

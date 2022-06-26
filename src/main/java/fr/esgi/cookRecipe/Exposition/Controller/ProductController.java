@@ -60,8 +60,8 @@ public class ProductController {
      * Pour récuperer un produit par id
      **/
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable(value="id") String id){
-        final RetrieveProductById retrieveProductById = new RetrieveProductById(id);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable(value="id") String id, @RequestParam(name = "research",required = false) String research){
+        final RetrieveProductById retrieveProductById = new RetrieveProductById(id, research);
         final ProductDTO result = queryBus.send(retrieveProductById);
         return ResponseEntity.ok(result);
     }
