@@ -20,6 +20,8 @@ import fr.esgi.cookRecipe.domain.product.service.ProductService;
 import fr.esgi.cookRecipe.domain.recipe.service.RecipeService;
 import fr.esgi.cookRecipe.domain.social.service.*;
 import fr.esgi.cookRecipe.domain.user.service.UserAccountService;
+import fr.esgi.cookRecipe.external.service.ProductApiService;
+import fr.esgi.cookRecipe.external.service.RecipeApiService;
 import kernel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -27,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -48,11 +51,24 @@ public class BeanConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
     private final ApplicationContext context;
 
     @Autowired
     public BeanConfiguration(ApplicationContext context){
         this.context = context;
+    }
+
+    private ProductApiService productApiService() {
+        return this.context.getBean(ProductApiService.class);
+    }
+
+    private RecipeApiService recipeApiService() {
+        return this.context.getBean(RecipeApiService.class);
     }
 
     public UserAccountService userAccountService() {
@@ -127,21 +143,21 @@ public class BeanConfiguration {
     public QueryBus queryBus() {
         final Map<Class<? extends Query>, QueryHandler> queryHandlerMap = new HashMap<>();
 
-        queryHandlerMap.put(RetrieveMostResearchedProductsByName.class, new RetrieveMostResearchedProductsByNameHandler(logService()));
-        queryHandlerMap.put(RetrieveNeverResearchedProductsByName.class, new RetrieveNeverResearchedProductsByNameHandler(logService()));
+        queryHandlerMap.put(RetrieveMostResearchedProductsByName.class, new RetrieveMostResearchedProductsByNameHandler(logService(), productApiService()));
+        queryHandlerMap.put(RetrieveNeverResearchedProductsByName.class, new RetrieveNeverResearchedProductsByNameHandler(logService(), productApiService()));
         queryHandlerMap.put(RetrieveNutriScoreById.class, new RetrieveNutriScoreByIdHandler(nutriScoreService()));
         queryHandlerMap.put(RetrieveNutriScores.class, new RetrieveNutriScoresHandler(nutriScoreService()));
         queryHandlerMap.put(RetrieveProductById.class, new RetrieveProductByIdHandler(productService(), logService(), userAccountService()));
         queryHandlerMap.put(RetrieveProducts.class, new RetrieveProductsHandler(productService()));
-        queryHandlerMap.put(RetrieveProductsByName.class, new RetrieveProductsByNameHandler(productService()));
+        queryHandlerMap.put(RetrieveProductsByName.class, new RetrieveProductsByNameHandler(productService(), productApiService()));
 
-        queryHandlerMap.put(RetrieveMostResearchedRecipesByName.class, new RetrieveMostResearchedRecipesByNameHandler(logService()));
-        queryHandlerMap.put(RetrieveNeverResearchedRecipesByName.class, new RetrieveNeverResearchedRecipesByNameHandler(logService()));
+        queryHandlerMap.put(RetrieveMostResearchedRecipesByName.class, new RetrieveMostResearchedRecipesByNameHandler(logService(), recipeApiService()));
+        queryHandlerMap.put(RetrieveNeverResearchedRecipesByName.class, new RetrieveNeverResearchedRecipesByNameHandler(logService(), recipeApiService()));
         queryHandlerMap.put(RetrieveRecipeById.class, new RetrieveRecipeByIdHandler(recipeService(), logService(), userAccountService()));
         queryHandlerMap.put(RetrieveRecipes.class, new RetrieveRecipesHandler(recipeService()));
-        queryHandlerMap.put(RetrieveRecipesByName.class, new RetrieveRecipesByNameHandler(recipeService()));
+        queryHandlerMap.put(RetrieveRecipesByName.class, new RetrieveRecipesByNameHandler(recipeService(), recipeApiService()));
         queryHandlerMap.put(RetrieveRecipesByProductId.class, new RetrieveRecipesByProductIdHandler(recipeService()));
-        queryHandlerMap.put(RetrieveRecipesByProductName.class, new RetrieveRecipesByProductNameHandler(recipeService()));
+        queryHandlerMap.put(RetrieveRecipesByProductName.class, new RetrieveRecipesByProductNameHandler(recipeService(), productApiService()));
         queryHandlerMap.put(RetrieveRecipesByUserId.class, new RetrieveRecipesByUserIdHandler(userAccountService(), recipeService()));
 
         queryHandlerMap.put(RetrieveRecipesSocial.class, new RetrieveRecipesSocialHandler(rateService(),categoryService(),recipeService(),commentService(), likeService(), userAccountService()));
@@ -152,5 +168,4 @@ public class BeanConfiguration {
 
         return new SimpleQueryBus(queryHandlerMap);
     }
-
 }

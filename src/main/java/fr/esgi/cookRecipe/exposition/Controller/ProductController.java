@@ -1,8 +1,7 @@
 package fr.esgi.cookRecipe.exposition.Controller;
 
 import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.queries.*;
-import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.commands.AddProduct;
-import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.commands.DeleteProductById;
+import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.exposition.ProductDTO.*;
 import kernel.CommandBus;
 import kernel.QueryBus;
@@ -52,8 +51,8 @@ public class ProductController {
      * Pour récuperer les produits paginé par nom (recherche)
      **/
     @GetMapping(value = "/search/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductsDTO> searchProductByname(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-        final RetrieveProductsByName retrieveProductByName = new RetrieveProductsByName(name, limit, offset);
+    public ResponseEntity<ProductsDTO> searchProductByname(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        final RetrieveProductsByName retrieveProductByName = new RetrieveProductsByName(name, limit, offset,autocomplete);
         final ProductsDTO result = queryBus.send(retrieveProductByName);
         return ResponseEntity.ok(result);
     }
@@ -102,8 +101,8 @@ public class ProductController {
      * Pour récuperer les produits les plus rechercher
      **/
     @GetMapping(value ="/search/most/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<ProductsDTO> getMostResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-            final RetrieveMostResearchedProductsByName retrieveMostResearchedProductsByName = new RetrieveMostResearchedProductsByName(name,limit,offset);
+        public ResponseEntity<ProductsDTO> getMostResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+            final RetrieveMostResearchedProductsByName retrieveMostResearchedProductsByName = new RetrieveMostResearchedProductsByName(name,limit,offset,autocomplete);
             final ProductsDTO result = queryBus.send(retrieveMostResearchedProductsByName);
             return ResponseEntity.ok(result);
     }
@@ -112,9 +111,10 @@ public class ProductController {
      * Pour récuperer les produits jamais rechercher
      **/
     @GetMapping(value ="/search/never/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductsDTO> getNeverResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-        final RetrieveNeverResearchedProductsByName retrieveNeverResearchedProductsByName = new RetrieveNeverResearchedProductsByName(name,limit,offset);
+    public ResponseEntity<ProductsDTO> getNeverResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        final RetrieveNeverResearchedProductsByName retrieveNeverResearchedProductsByName = new RetrieveNeverResearchedProductsByName(name,limit,offset,autocomplete);
         final ProductsDTO result = queryBus.send(retrieveNeverResearchedProductsByName);
         return ResponseEntity.ok(result);
     }
+
 }

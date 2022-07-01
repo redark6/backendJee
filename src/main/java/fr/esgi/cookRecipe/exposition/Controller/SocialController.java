@@ -1,7 +1,7 @@
 package fr.esgi.cookRecipe.exposition.Controller;
 
 import fr.esgi.cookRecipe.application.socialQueriesCommandsEvents.commands.*;
-import fr.esgi.cookRecipe.application.socialQueriesCommandsEvents.queries.RetrieveRecipesSocial;
+import fr.esgi.cookRecipe.application.socialQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.exposition.SocialDTO.AddCommentRecipeDTO;
 import fr.esgi.cookRecipe.exposition.SocialDTO.RateRecipeDTO;
 import fr.esgi.cookRecipe.exposition.SocialDTO.RecipeSocialDTO;

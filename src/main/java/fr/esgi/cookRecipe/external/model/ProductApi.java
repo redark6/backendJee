@@ -1,6 +1,6 @@
 package fr.esgi.cookRecipe.external.model;
 
 public class ProductApi {
-    private int id;
-    private String title;
+    public String name;
+    public String image;
 }

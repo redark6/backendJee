@@ -1,6 +1,6 @@
 package fr.esgi.cookRecipe.exposition.Controller;
 
-import fr.esgi.cookRecipe.application.recipeQueriesCommandsEvents.commands.AddRecipe;
+import fr.esgi.cookRecipe.application.recipeQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.application.recipeQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.AddRecipeDTO;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.RecipeDTO;
@@ -54,8 +54,8 @@ public class RecipeController {
      * Pour la recherche
      **/
     @GetMapping(value = "/search/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RecipesDTO> getRecipeByName(@PathVariable(value="name") String name, @RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-        final RetrieveRecipesByName retrieveRecipesByName = new RetrieveRecipesByName(name, limit, offset);
+    public ResponseEntity<RecipesDTO> getRecipeByName(@PathVariable(value="name") String name, @RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        final RetrieveRecipesByName retrieveRecipesByName = new RetrieveRecipesByName(name, limit, offset,autocomplete);
         final RecipesDTO result = queryBus.send(retrieveRecipesByName);
         return ResponseEntity.ok(result);
     }
@@ -74,8 +74,8 @@ public class RecipeController {
      * Pour recuperer les reccette par nom de produit
      **/
     @GetMapping(value = "/product/name/{name}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RecipesDTO> getRecipesByProductName(@PathVariable(value="name") String productName, @RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-        final RetrieveRecipesByProductName retrieveRecipesByProductName = new RetrieveRecipesByProductName(productName, limit, offset);
+    public ResponseEntity<RecipesDTO> getRecipesByProductName(@PathVariable(value="name") String productName, @RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        final RetrieveRecipesByProductName retrieveRecipesByProductName = new RetrieveRecipesByProductName(productName, limit, offset,autocomplete);
         final RecipesDTO result = queryBus.send(retrieveRecipesByProductName);
         return ResponseEntity.ok(result);
     }
@@ -104,8 +104,8 @@ public class RecipeController {
      * Pour recuperer les recettes les plus rechercher
      **/
     @GetMapping(value ="/search/most/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipesDTO> getMostResearchedRecipes(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-        final RetrieveMostResearchedRecipesByName retrieveMostResearchedRecipesByName = new RetrieveMostResearchedRecipesByName(name,limit, offset);
+    public ResponseEntity<RecipesDTO> getMostResearchedRecipes(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        final RetrieveMostResearchedRecipesByName retrieveMostResearchedRecipesByName = new RetrieveMostResearchedRecipesByName(name,limit, offset, autocomplete);
         final RecipesDTO result = queryBus.send(retrieveMostResearchedRecipesByName);
         return ResponseEntity.ok(result);
     }
@@ -114,8 +114,8 @@ public class RecipeController {
      * Pour recuperer les recettes jamais rechercher
      **/
     @GetMapping(value ="/search/never/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipesDTO> getNeverResearchedRecipes(@PathVariable(value="name") String name, @RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
-        final RetrieveNeverResearchedRecipesByName retrieveNeverResearchedRecipesByName = new RetrieveNeverResearchedRecipesByName(name, limit, offset);
+    public ResponseEntity<RecipesDTO> getNeverResearchedRecipes(@PathVariable(value="name") String name, @RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        final RetrieveNeverResearchedRecipesByName retrieveNeverResearchedRecipesByName = new RetrieveNeverResearchedRecipesByName(name, limit, offset, autocomplete);
         final RecipesDTO result = queryBus.send(retrieveNeverResearchedRecipesByName);
         return ResponseEntity.ok(result);
     }

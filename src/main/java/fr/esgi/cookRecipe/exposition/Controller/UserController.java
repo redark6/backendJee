@@ -1,11 +1,7 @@
 package fr.esgi.cookRecipe.exposition.Controller;
 
-import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.commands.CreateAccount;
-import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.commands.UpdateMail;
-import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.commands.UpdatePassword;
-import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.queries.RetrieveUserById;
-import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.queries.RetrieveUserMe;
-import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.queries.RetrieveUsersByUserNameLike;
+import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.commands.*;
+import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.exposition.UserDTO.*;
 import kernel.CommandBus;
 import kernel.QueryBus;
@@ -55,7 +51,7 @@ public class UserController {
      * Pour la recherche d'utilisateur
     **/
     @GetMapping(value = "/search/{usernamelike}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<UsersDTO> searchUserProfil(@PathVariable(value="usernamelike") String usernamelike,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset){
+    public ResponseEntity<UsersDTO> searchUserProfil(@PathVariable(value="usernamelike") String usernamelike, @RequestParam(name = "limit") int limit, @RequestParam(name = "offset") int offset){
         final RetrieveUsersByUserNameLike retrieveUsersByNameLike = new RetrieveUsersByUserNameLike(usernamelike,limit,offset);
         final UsersDTO result = queryBus.send(retrieveUsersByNameLike);
         return ResponseEntity.ok(result);
