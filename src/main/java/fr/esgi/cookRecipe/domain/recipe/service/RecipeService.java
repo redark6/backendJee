@@ -3,6 +3,7 @@ package fr.esgi.cookRecipe.domain.recipe.service;
 import fr.esgi.cookRecipe.domain.recipe.entity.Recipe;
 import fr.esgi.cookRecipe.domain.recipe.repository.RecipeRepository;
 import fr.esgi.cookRecipe.domain.user.entity.UserAccount;
+import fr.esgi.cookRecipe.infrastructure.exception.NegativePriceException;
 import kernel.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,9 @@ public class RecipeService {
         Optional<Recipe> recipe = this.recipeRepository.findById(id);
         if(recipe.isEmpty()){
             throw NoSuchEntityException.withIdAndElem(id,"recipe");
+        }
+        if(recipe.get().getPrice() < 0){
+            throw NegativePriceException.withPrice(recipe.get().getPrice());
         }
         return recipe.get();
     }
