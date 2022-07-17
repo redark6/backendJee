@@ -22,8 +22,8 @@ public class Product {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "mesure_id",referencedColumnName = "id")
-    private MeasureUnit mesure;
+    @JoinColumn(name = "measure_id",referencedColumnName = "id")
+    private MeasureUnit measure;
 
     @ManyToOne
     @JoinColumn(name = "nutri_score_id",referencedColumnName = "id")

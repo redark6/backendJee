@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CommentsDTO {
 
-    private List<CommentDTO> comments;
+    public List<CommentDTO> comments;
 
     public static CommentsDTO of(List<CommentDTO> comments) {
         return new CommentsDTO(comments);

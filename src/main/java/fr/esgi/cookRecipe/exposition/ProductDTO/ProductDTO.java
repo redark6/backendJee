@@ -1,10 +1,10 @@
 package fr.esgi.cookRecipe.exposition.ProductDTO;
 
 public class ProductDTO {
-    private String id;
-    private String name;
-    private String unite;
-    private NutriScoreDTO nutriScore;
+    public String id;
+    public String name;
+    public String unite;
+    public NutriScoreDTO nutriScore;
 
     public static ProductDTO of(String id, String name, String unite, NutriScoreDTO nutriScore) {
         return new ProductDTO(id, name, unite, nutriScore);

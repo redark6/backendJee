@@ -2,9 +2,9 @@ package fr.esgi.cookRecipe.exposition.SocialDTO;
 
 public class RatingUserDTO {
 
-    private RatingDTO rating;
-    private boolean userRated;
-    private double userRating;
+    public RatingDTO rating;
+    public boolean userRated;
+    public double userRating;
 
     public static RatingUserDTO of(RatingDTO rating, boolean userRated, int userRating) {
         return new RatingUserDTO(rating, userRated, userRating);

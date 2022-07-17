@@ -2,8 +2,8 @@ package fr.esgi.cookRecipe.exposition.SocialDTO;
 
 public class LikeDTO {
 
-    private double likeNumber;
-    private boolean userLiked;
+    public double likeNumber;
+    public boolean userLiked;
 
     public static LikeDTO of(long likeNumber, boolean userLiked) {
         return new LikeDTO(likeNumber, userLiked);

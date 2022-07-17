@@ -6,8 +6,10 @@ import fr.esgi.cookRecipe.exposition.SocialDTO.AddCommentRecipeDTO;
 import fr.esgi.cookRecipe.exposition.SocialDTO.RateRecipeDTO;
 import fr.esgi.cookRecipe.exposition.SocialDTO.RecipeSocialDTO;
 import kernel.CommandBus;
+import kernel.NoSuchEntityException;
 import kernel.QueryBus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -89,4 +91,13 @@ public class SocialController {
         final RecipeSocialDTO result = queryBus.send(retrieveRecipesSocial);
         return ResponseEntity.ok(result);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchEntityException.class)
+    public String handleEntityExceptions(
+            NoSuchEntityException ex) {
+        return ex.getMessage();
+    }
 }
+
+

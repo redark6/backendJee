@@ -1,12 +1,12 @@
 package fr.esgi.cookRecipe.exposition.RecipeDTO;
 
 public class RecipeDTO {
-    private String id;
-    private String name;
-    private int shares;
-    private Long executionTime;
-    private double price;
-    private RecipeProductsDTO products;
+    public String id;
+    public String name;
+    public int shares;
+    public Long executionTime;
+    public double price;
+    public RecipeProductsDTO products;
 
     public static RecipeDTO of(String id, String name, int shares, Long executionTime, double price, RecipeProductsDTO products) {
         return new RecipeDTO(id, name, shares, executionTime, price, products);

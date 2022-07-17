@@ -2,12 +2,12 @@ package fr.esgi.cookRecipe.exposition.SocialDTO;
 
 public class CommentDTO {
 
-    private String id;
-    private String comment;
-    private boolean isUserComment;
-    private String authorId;
-    private String authorUserName;
-    private String postedDate;
+    public String id;
+    public String comment;
+    public boolean isUserComment;
+    public String authorId;
+    public String authorUserName;
+    public String postedDate;
 
     public static CommentDTO of(String id, String comment, boolean isUserComment, String authorId, String authorUserName, String postedDate) {
         return new CommentDTO(id, comment, isUserComment,authorId,authorUserName, postedDate);

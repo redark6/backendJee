@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "mesure_unit")
+@Table(name = "measure_unit")
 public class MeasureUnit {
 
     @Id

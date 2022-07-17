@@ -2,8 +2,8 @@ package fr.esgi.cookRecipe.exposition.ProductDTO;
 
 public class NutriScoreDTO {
 
-    private String id;
-    private char grade;
+    public String id;
+    public char grade;
 
     public static NutriScoreDTO of(String id, char grade) {
         return new NutriScoreDTO(id, grade);

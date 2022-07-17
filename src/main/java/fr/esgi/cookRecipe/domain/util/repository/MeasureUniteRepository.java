@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface MeasureUniteRepository extends JpaRepository<MeasureUnit, UUID> {
     Optional<MeasureUnit> getMeasureUniteById(UUID id);
+    Optional<MeasureUnit> getMeasureUnitsByUnit(String unite);
 }

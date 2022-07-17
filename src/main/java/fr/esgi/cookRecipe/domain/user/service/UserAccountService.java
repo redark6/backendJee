@@ -53,6 +53,7 @@ public class UserAccountService {
     }
 
     public void createUser(UserAccount userAccount, String email, String password, List<GrantedAuthority> grntdAuths) {
+        checkMailNotAlreadyTaken(email);
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(email,bcryptPasswordEncoder.encode(password),grntdAuths);
         jdbcUserDetailsManager.createUser(userDetails);
         this.saveUserAccount(userAccount);

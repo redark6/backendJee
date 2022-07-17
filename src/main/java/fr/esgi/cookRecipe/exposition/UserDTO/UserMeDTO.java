@@ -2,12 +2,12 @@ package fr.esgi.cookRecipe.exposition.UserDTO;
 
 public class UserMeDTO {
 
-    private String id;
-    private String username;
-    private String email;
-    private int recipeNumber;
-    private int commentNumber;
-    private String inscriptionDate;
+    public String id;
+    public String username;
+    public String email;
+    public int recipeNumber;
+    public int commentNumber;
+    public String inscriptionDate;
 
     public static UserMeDTO of(String id, String username, String email, int recipeNumber, int commentNumber, String inscriptionDate) {
         return new UserMeDTO(id, username, email, recipeNumber,commentNumber, inscriptionDate);

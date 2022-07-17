@@ -2,9 +2,9 @@ package fr.esgi.cookRecipe.exposition.UserDTO;
 
 public class UserListItemDTO {
 
-    private String id;
-    private String username;
-    private String inscriptionDate;
+    public String id;
+    public String username;
+    public String inscriptionDate;
 
     public static UserListItemDTO of(String id, String username, String inscriptionDate) {
         return new UserListItemDTO(id, username, inscriptionDate);

@@ -3,9 +3,15 @@ package fr.esgi.cookRecipe.exposition.Controller;
 import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.application.userQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.exposition.UserDTO.*;
+import fr.esgi.cookRecipe.infrastructure.exception.MailAlreadyTakenException;
+import fr.esgi.cookRecipe.infrastructure.exception.NoUserFormMailException;
+import fr.esgi.cookRecipe.infrastructure.exception.SameMailException;
+import fr.esgi.cookRecipe.infrastructure.exception.SamePasswordException;
 import kernel.CommandBus;
+import kernel.NoSuchEntityException;
 import kernel.QueryBus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,6 +91,41 @@ public class UserController {
         final UpdatePassword updatePassword = new UpdatePassword(request);
         commandBus.send(updatePassword);
         return ResponseEntity.ok().build();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchEntityException.class)
+    public String handleEntityExceptions(
+            NoSuchEntityException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MailAlreadyTakenException.class)
+    public String handleMailAlreadyTakenException(
+            MailAlreadyTakenException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    @ExceptionHandler(SameMailException.class)
+    public String handleSameMailException(
+            SameMailException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    @ExceptionHandler(SamePasswordException.class)
+    public String handleSamePasswordException(
+            SamePasswordException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    @ExceptionHandler(NoUserFormMailException.class)
+    public String handleNoUserFormMailException(
+            NoUserFormMailException ex) {
+        return ex.getMessage();
     }
 
 }

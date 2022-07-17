@@ -3,11 +3,11 @@ package fr.esgi.cookRecipe.exposition.RecipeDTO;
 import fr.esgi.cookRecipe.exposition.ProductDTO.NutriScoreDTO;
 
 public class RecipeProductDTO {
-    private String id;
-    private String name;
-    private int quantity;
-    private String unite;
-    private NutriScoreDTO nutriScore;
+    public String id;
+    public String name;
+    public int quantity;
+    public String unite;
+    public NutriScoreDTO nutriScore;
 
     public static RecipeProductDTO of(String id, String name, int quantity, String unite, NutriScoreDTO nutriScore) {
         return new RecipeProductDTO(id, name, quantity, unite, nutriScore);

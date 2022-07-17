@@ -2,8 +2,8 @@ package fr.esgi.cookRecipe.exposition.SocialDTO;
 
 public class RatingDTO {
 
-    private double rate;
-    private RatingCategoryDTO ratingCategory;
+    public double rate;
+    public RatingCategoryDTO ratingCategory;
 
     public static RatingDTO of(double rate, RatingCategoryDTO ratingCategory) {
         return new RatingDTO(rate, ratingCategory);

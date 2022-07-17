@@ -19,6 +19,8 @@ public class RetrieveProductsHandler implements QueryHandler<RetrieveProducts, P
 	@Override
 	public ProductsDTO handle(RetrieveProducts query) {
 		List<Product> products = productService.getAllProducts();
+		//ProductsDTO .of()
+
 		return EntityToDTOSerializer.productsToProductsDTO(products);
 	}
 }

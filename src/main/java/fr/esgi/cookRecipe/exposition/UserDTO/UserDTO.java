@@ -2,11 +2,11 @@ package fr.esgi.cookRecipe.exposition.UserDTO;
 
 public class UserDTO {
 
-    private String id;
-    private String username;
-    private int recipeNumber;
-    private int commentNumber;
-    private String inscriptionDate;
+    public String id;
+    public String username;
+    public int recipeNumber;
+    public int commentNumber;
+    public String inscriptionDate;
 
     public static UserDTO of(String id, String username, int recipeNumber, int commentNumber, String inscriptionDate) {
         return new UserDTO(id, username, recipeNumber,commentNumber, inscriptionDate);

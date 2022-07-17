@@ -150,6 +150,7 @@ public class BeanConfiguration {
         queryHandlerMap.put(RetrieveProductById.class, new RetrieveProductByIdHandler(productService(), logService(), userAccountService()));
         queryHandlerMap.put(RetrieveProducts.class, new RetrieveProductsHandler(productService()));
         queryHandlerMap.put(RetrieveProductsByName.class, new RetrieveProductsByNameHandler(productService(), productApiService()));
+        queryHandlerMap.put(RetrieveMeasureUnite.class, new RetrieveMeasureUniteHandler(measureUniteService()));
 
         queryHandlerMap.put(RetrieveMostResearchedRecipesByName.class, new RetrieveMostResearchedRecipesByNameHandler(logService(), recipeApiService()));
         queryHandlerMap.put(RetrieveNeverResearchedRecipesByName.class, new RetrieveNeverResearchedRecipesByNameHandler(logService(), recipeApiService()));

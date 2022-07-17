@@ -12,14 +12,6 @@ public class FetchProduct {
 
     public int totalResults;
 
-    public class SousObjet {
-
-        public int id;
-
-        public String name;
-
-        public String image;
-    }
 }
 
 

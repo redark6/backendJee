@@ -36,7 +36,7 @@ public class AddProductCommandHandler implements CommandHandler<AddProduct, Void
 		Product product = new Product();
 		product.setName(command.addProductDTO.name);
 		product.setNutriScore(nutriScore);
-		product.setMesure(measureUnit);
+		product.setMeasure(measureUnit);
 		Product productSaved = this.productService.addProduct(product);
 		ProductLog productLog = new ProductLog();
 		productLog.setProduct(productSaved);

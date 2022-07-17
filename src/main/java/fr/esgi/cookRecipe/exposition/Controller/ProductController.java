@@ -5,8 +5,10 @@ import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.exposition.ProductDTO.*;
 import fr.esgi.cookRecipe.external.service.FetchProductService;
 import kernel.CommandBus;
+import kernel.NoSuchEntityException;
 import kernel.QueryBus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,10 +57,10 @@ public class ProductController {
      * Pour récuperer les produits paginé par nom (recherche)
      **/
     @GetMapping(value = "/search/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductsDTO> searchProductByname(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+    public ProductsDTO searchProductByname(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
         final RetrieveProductsByName retrieveProductByName = new RetrieveProductsByName(name, limit, offset,autocomplete);
         final ProductsDTO result = queryBus.send(retrieveProductByName);
-        return ResponseEntity.ok(result);
+        return result;
     }
 
     /**
@@ -84,7 +86,7 @@ public class ProductController {
     /**
      * Pour récuperer les nutriscores
      **/
-    @GetMapping(value = "/nutriscore/all", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/nutriscore/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NutriScoresDTO> getAllNutriScore(){
         final RetrieveNutriScores retrieveNutriScores = new RetrieveNutriScores();
         final NutriScoresDTO result = queryBus.send(retrieveNutriScores);
@@ -92,9 +94,19 @@ public class ProductController {
     }
 
     /**
+     * Pour récuperer les unités
+     **/
+    @GetMapping(value = "/measure/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MeasuresUniteDTO> getAllMeasure(){
+        final RetrieveMeasureUnite retrieveMeasureUnite = new RetrieveMeasureUnite();
+        final MeasuresUniteDTO result = queryBus.send(retrieveMeasureUnite);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
      * Pour récuperer un nutriscore par id
      **/
-    @GetMapping(value ="/nutriscore/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value ="/nutriscore/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NutriScoreDTO> getNutriScoreById(@PathVariable(value="id") String id){
         final RetrieveNutriScoreById retrieveNutriScoreById = new RetrieveNutriScoreById(id);
         final NutriScoreDTO result = queryBus.send(retrieveNutriScoreById);
@@ -122,10 +134,16 @@ public class ProductController {
     }
 
 
-    @GetMapping(value = "/fetchData", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/test/fetchData", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> fetchProductFromSpoon() throws URISyntaxException {
         this.fetchProductService.fetchProducts();
         return ResponseEntity.ok().build();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchEntityException.class)
+    public String handleEntityExceptions(
+            NoSuchEntityException ex) {
+        return ex.getMessage();
+    }
 }

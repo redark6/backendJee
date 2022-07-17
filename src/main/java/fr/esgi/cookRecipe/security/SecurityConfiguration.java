@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/login", "/user/create").permitAll()
+        http.authorizeRequests().antMatchers("/login", "/user/create","/product/test/fetchData").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

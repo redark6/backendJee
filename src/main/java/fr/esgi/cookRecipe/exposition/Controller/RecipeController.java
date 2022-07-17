@@ -5,9 +5,12 @@ import fr.esgi.cookRecipe.application.recipeQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.AddRecipeDTO;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.RecipeDTO;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.RecipesDTO;
+import fr.esgi.cookRecipe.infrastructure.exception.NegativePriceException;
 import kernel.CommandBus;
+import kernel.NoSuchEntityException;
 import kernel.QueryBus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -118,5 +121,19 @@ public class RecipeController {
         final RetrieveNeverResearchedRecipesByName retrieveNeverResearchedRecipesByName = new RetrieveNeverResearchedRecipesByName(name, limit, offset, autocomplete);
         final RecipesDTO result = queryBus.send(retrieveNeverResearchedRecipesByName);
         return ResponseEntity.ok(result);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchEntityException.class)
+    public String handleEntityExceptions(
+            NoSuchEntityException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NegativePriceException.class)
+    public String handleNegativePriceException(
+            NegativePriceException ex) {
+        return ex.getMessage();
     }
 }

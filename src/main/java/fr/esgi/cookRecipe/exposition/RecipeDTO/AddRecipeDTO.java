@@ -19,7 +19,7 @@ public class AddRecipeDTO {
     public Long executionTime;
 
     @NotEmpty
-    @Min(value = 1L)
+    @Min(value = 1L) // in cents
     public int price;
 
     @NotBlank

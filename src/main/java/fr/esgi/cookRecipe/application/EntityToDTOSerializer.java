@@ -7,10 +7,8 @@ import fr.esgi.cookRecipe.domain.social.entity.Category;
 import fr.esgi.cookRecipe.domain.social.entity.Comment;
 import fr.esgi.cookRecipe.domain.social.entity.Rate;
 import fr.esgi.cookRecipe.domain.user.entity.UserAccount;
-import fr.esgi.cookRecipe.exposition.ProductDTO.NutriScoreDTO;
-import fr.esgi.cookRecipe.exposition.ProductDTO.NutriScoresDTO;
-import fr.esgi.cookRecipe.exposition.ProductDTO.ProductDTO;
-import fr.esgi.cookRecipe.exposition.ProductDTO.ProductsDTO;
+import fr.esgi.cookRecipe.domain.util.entity.MeasureUnit;
+import fr.esgi.cookRecipe.exposition.ProductDTO.*;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.RecipeDTO;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.RecipeProductDTO;
 import fr.esgi.cookRecipe.exposition.RecipeDTO.RecipeProductsDTO;
@@ -33,7 +31,7 @@ public class EntityToDTOSerializer {
         return ProductDTO.of(
                 product.getId().toString(),
                 product.getName(),
-                product.getMesure().getUnit(),
+                product.getMeasure().getUnit(),
                 NutriScoreDTO.of(
                         product.getNutriScore().getId().toString(),
                         product.getNutriScore().getGrade()
@@ -74,7 +72,7 @@ public class EntityToDTOSerializer {
                                         product.getProduct().getId().toString(),
                                         product.getProduct().getName(),
                                         product.getQuantity(),
-                                        product.getProduct().getMesure().getUnit(),
+                                        product.getProduct().getMeasure().getUnit(),
                                         NutriScoreDTO.of(product.getProduct().getNutriScore().getId().toString(), product.getProduct().getNutriScore().getGrade())
                                 )
                         ).collect(Collectors.toList())
@@ -165,5 +163,13 @@ public class EntityToDTOSerializer {
         return RatingUserDTO.of(rating,userRated ,userRating);
     }
 
+    public static MeasureUniteDTO measureUniteToMeasureUniteDTO(MeasureUnit measureUnit) {
+        return MeasureUniteDTO.of(measureUnit.getId().toString(), measureUnit.getUnit());
+    }
 
+    public static MeasuresUniteDTO measuresUniteListToMeasuresUniteDTO(List<MeasureUnit> measureUnits) {
+        return MeasuresUniteDTO.of(measureUnits.stream().map(
+                measure -> measureUniteToMeasureUniteDTO(measure)
+        ).collect(Collectors.toList()));
+    }
 }

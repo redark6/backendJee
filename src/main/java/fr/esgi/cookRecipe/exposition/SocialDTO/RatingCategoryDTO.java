@@ -2,8 +2,8 @@ package fr.esgi.cookRecipe.exposition.SocialDTO;
 
 public class RatingCategoryDTO {
 
-    private String id;
-    private String name;
+    public String id;
+    public String name;
 
     public static RatingCategoryDTO of(String id, String name) {
         return new RatingCategoryDTO(id, name);
