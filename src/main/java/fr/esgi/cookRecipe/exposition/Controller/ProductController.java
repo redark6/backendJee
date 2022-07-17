@@ -3,6 +3,7 @@ package fr.esgi.cookRecipe.exposition.Controller;
 import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.queries.*;
 import fr.esgi.cookRecipe.application.productQueriesCommandsEvents.commands.*;
 import fr.esgi.cookRecipe.exposition.ProductDTO.*;
+import fr.esgi.cookRecipe.external.service.FetchProductService;
 import kernel.CommandBus;
 import kernel.QueryBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("product")
@@ -18,11 +20,13 @@ public class ProductController {
 
     private  CommandBus commandBus;
     private  QueryBus queryBus;
+    private FetchProductService fetchProductService;
 
     @Autowired
-    public ProductController(CommandBus commandBus, QueryBus queryBus){
+    public ProductController(CommandBus commandBus, QueryBus queryBus, FetchProductService fetchProductService){
         this.commandBus = commandBus;
         this.queryBus = queryBus;
+        this.fetchProductService = fetchProductService;
     }
 
     public ProductController(){
@@ -115,6 +119,13 @@ public class ProductController {
         final RetrieveNeverResearchedProductsByName retrieveNeverResearchedProductsByName = new RetrieveNeverResearchedProductsByName(name,limit,offset,autocomplete);
         final ProductsDTO result = queryBus.send(retrieveNeverResearchedProductsByName);
         return ResponseEntity.ok(result);
+    }
+
+
+    @GetMapping(value = "/fetchData", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> fetchProductFromSpoon() throws URISyntaxException {
+        this.fetchProductService.fetchProducts();
+        return ResponseEntity.ok().build();
     }
 
 }

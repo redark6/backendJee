@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN mvnw clean install
+RUN mvn clean install
 
 COPY src ./src
 
