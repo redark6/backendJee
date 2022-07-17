@@ -26,7 +26,7 @@ public class RecipeLog {
     @Column(name = "count")
     private long count;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "researchs",referencedColumnName = "id")
     private List<ResearchLog> researches;
 }

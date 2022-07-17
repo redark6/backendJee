@@ -37,7 +37,7 @@ public class RetrieveProductByIdHandler implements QueryHandler<RetrieveProductB
         researchLog.setUser(this.userAccountService.getMyUserAccount());
         researchLog.setEntitled(query.research);
         researchLog.setExecutionDate(new Date());
-        researchLogList.add(researchLog);
+        researchLogList.add(this.logService.saveResearchLog(researchLog));
         productLog.setResearches(researchLogList);
         productLog.setCount(productLog.getCount() + 1);
         this.logService.saveProductLog(productLog);

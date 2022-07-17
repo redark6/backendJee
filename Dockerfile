@@ -1,13 +1,15 @@
-# syntax=docker/dockerfile:1
+FROM maven:3.8.3-openjdk-11 as build-project
+ADD . ./cookRecipe
+#COPY .mvn/pom.xml /usr/share/maven/ref/
+
+WORKDIR /cookRecipe
+RUN mvn -U clean install
 
 FROM openjdk:11
+EXPOSE 8088
+EXPOSE 443
+EXPOSE 22
 
-WORKDIR /app
+COPY --from=build-project ./cookRecipe/target/cookRecipe-*.jar ./cookRecipe.jar
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN mvn clean install
-
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
+CMD ["java", "-Dspring.profiles.active=dev", "-jar", "cookRecipe.jar"]
