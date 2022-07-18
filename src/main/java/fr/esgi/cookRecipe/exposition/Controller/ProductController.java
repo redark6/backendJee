@@ -57,7 +57,7 @@ public class ProductController {
      * Pour récuperer les produits paginé par nom (recherche)
      **/
     @GetMapping(value = "/search/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ProductsDTO searchProductByname(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+    public ProductsDTO searchProductByname(@PathVariable(value="name",required = true) String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
         final RetrieveProductsByName retrieveProductByName = new RetrieveProductsByName(name, limit, offset,autocomplete);
         final ProductsDTO result = queryBus.send(retrieveProductByName);
         return result;
@@ -66,7 +66,7 @@ public class ProductController {
     /**
      * Pour récuperer un produit par id
      **/
-    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/id/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductDTO> getProductById(@PathVariable(value="id") String id, @RequestParam(name = "research",required = false) String research){
         final RetrieveProductById retrieveProductById = new RetrieveProductById(id, research);
         final ProductDTO result = queryBus.send(retrieveProductById);
@@ -117,7 +117,7 @@ public class ProductController {
      * Pour récuperer les produits les plus rechercher
      **/
     @GetMapping(value ="/search/most/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<ProductsDTO> getMostResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+        public ResponseEntity<ProductsDTO> getMostResearchedProducts(@PathVariable(value="name",required = true) String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
             final RetrieveMostResearchedProductsByName retrieveMostResearchedProductsByName = new RetrieveMostResearchedProductsByName(name,limit,offset,autocomplete);
             final ProductsDTO result = queryBus.send(retrieveMostResearchedProductsByName);
             return ResponseEntity.ok(result);
@@ -127,14 +127,14 @@ public class ProductController {
      * Pour récuperer les produits jamais rechercher
      **/
     @GetMapping(value ="/search/never/{name}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductsDTO> getNeverResearchedProducts(@PathVariable(value="name") String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
+    public ResponseEntity<ProductsDTO> getNeverResearchedProducts(@PathVariable(value="name",required = true) String name,@RequestParam(name = "limit") int limit,@RequestParam(name = "offset") int offset, @RequestParam(name = "autocomplete",required = false ,defaultValue = "false") boolean autocomplete){
         final RetrieveNeverResearchedProductsByName retrieveNeverResearchedProductsByName = new RetrieveNeverResearchedProductsByName(name,limit,offset,autocomplete);
         final ProductsDTO result = queryBus.send(retrieveNeverResearchedProductsByName);
         return ResponseEntity.ok(result);
     }
 
 
-    @GetMapping(value = "/test/fetchData", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/test/fetchData")
     public ResponseEntity<Void> fetchProductFromSpoon() throws URISyntaxException {
         this.fetchProductService.fetchProducts();
         return ResponseEntity.ok().build();

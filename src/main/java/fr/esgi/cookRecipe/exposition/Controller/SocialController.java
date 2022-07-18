@@ -35,7 +35,7 @@ public class SocialController {
     /**
      * Pour commenter une recette
      **/
-    @PostMapping(value = "/comment",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/comment",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity commentRecipe(@RequestBody @Valid AddCommentRecipeDTO request){
         final AddCommentRecipe addCommentRecipe = new AddCommentRecipe(request);
         commandBus.send(addCommentRecipe);
@@ -55,7 +55,7 @@ public class SocialController {
     /**
      * Pour évaluer une recette
      **/
-    @PostMapping(value = "/rate",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/rate",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity rateRecipe(@RequestBody @Valid RateRecipeDTO request){
         final RateRecipe rating = new RateRecipe(request);
         commandBus.send(rating);

@@ -10,6 +10,6 @@ import java.util.UUID;
 
 public interface ProductLogRepository extends JpaRepository<ProductLog, UUID> {
     ProductLog getProductLogByProduct(Product product);
-    Page<ProductLog> getProductLogByProduct_NameContainingAndCountLessThan(String name, Pageable pageable, int count);
+    Page<ProductLog> getProductLogByProduct_NameContainingAndCountLessThan(String name, Long count, Pageable pageable);
     Page<ProductLog> getProductLogByProduct_NameContainingOrderByCountDesc(String name, Pageable pageable);
 }

@@ -143,7 +143,7 @@ public class EntityToDTOSerializer {
         categoryRatesMap.forEach((k,v) -> {
             RatingCategoryDTO category = categoryToRatingCategoryDTO(k);
             Optional<Rate> userRating =  v.stream().filter(rate -> rate.getUser().getId().toString().equals(userId)).findAny();
-            double rateScore = v.stream().map(r -> r.getRate()).reduce(0, Integer::sum) / v.size();
+            double rateScore = v.size() > 0 ? v.stream().map(r -> r.getRate()).reduce(0, Integer::sum) / v.size() : 0;
             RatingDTO ratingDTO = rateToRatingDTO(rateScore, category);
             RatingUserDTO ratingUserDTO = categoryToRatingUserDTO(ratingDTO, userRating.isPresent(), userRating.isPresent() ? userRating.get().getRate() : 0);
             RatingsUserList.add(ratingUserDTO);

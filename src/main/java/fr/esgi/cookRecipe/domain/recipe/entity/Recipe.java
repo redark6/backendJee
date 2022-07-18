@@ -29,9 +29,9 @@ public class Recipe {
     private Long executionTime;
 
     @Column(name = "price") // in cents
-    private int price;
+    private Long price;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "products_quantity",referencedColumnName = "id")
     private List<RecipeProductQuantity> products;
 

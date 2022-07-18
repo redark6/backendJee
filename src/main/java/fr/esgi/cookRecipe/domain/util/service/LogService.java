@@ -48,12 +48,12 @@ public class LogService {
     }
 
     public List<ProductLog> getNeverResearchedProductLogByName(String name, Pageable pagination){
-        Iterable<ProductLog> productLogs = this.productLogRepository.getProductLogByProduct_NameContainingAndCountLessThan(name, pagination, 1);
+        Iterable<ProductLog> productLogs = this.productLogRepository.getProductLogByProduct_NameContainingAndCountLessThan(name,1L, pagination);
         return Streamable.of(productLogs).toList();
     }
 
     public List<RecipeLog> getNeverResearchedRecipeLogByName(String name, Pageable pagination){
-        Iterable<RecipeLog> recipeLogs = this.recipeLogRepository.getRecipeLogByRecipe_NameContainingAndCountLessThan(name, pagination, 1);
+        Iterable<RecipeLog> recipeLogs = this.recipeLogRepository.getRecipeLogByRecipe_NameContainingAndCountLessThan(name,1L, pagination);
         return Streamable.of(recipeLogs).toList();
     }
 

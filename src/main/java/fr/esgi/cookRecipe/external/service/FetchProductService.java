@@ -5,6 +5,9 @@ import fr.esgi.cookRecipe.domain.product.entity.Product;
 import fr.esgi.cookRecipe.domain.product.service.NutriScoreService;
 import fr.esgi.cookRecipe.domain.product.service.ProductService;
 import fr.esgi.cookRecipe.domain.util.entity.MeasureUnit;
+import fr.esgi.cookRecipe.domain.util.entity.ProductLog;
+import fr.esgi.cookRecipe.domain.util.entity.ResearchLog;
+import fr.esgi.cookRecipe.domain.util.service.LogService;
 import fr.esgi.cookRecipe.domain.util.service.MeasureUniteService;
 import fr.esgi.cookRecipe.external.model.FetchProduct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -27,14 +31,15 @@ public class FetchProductService {
     private final ProductService productService;
     private final NutriScoreService nutriScoreService;
     private final MeasureUniteService measureUniteService;
+    private final LogService logService;
 
     @Autowired
-    public FetchProductService(RestTemplate restTemplate, ProductService productService, NutriScoreService nutriScoreService,MeasureUniteService measureUniteService) {
+    public FetchProductService(RestTemplate restTemplate, ProductService productService, NutriScoreService nutriScoreService,MeasureUniteService measureUniteService, LogService logService) {
         this.restTemplate = restTemplate;
         this.productService = productService;
         this.nutriScoreService = nutriScoreService;
         this.measureUniteService = measureUniteService;
-
+        this.logService = logService;
     }
 
     public void fetchProducts() throws URISyntaxException {
@@ -65,7 +70,12 @@ public class FetchProductService {
             newProduct.setName(product.name);
             newProduct.setMeasure(unite);
             newProduct.setNutriScore(generateNutriscore(nutriScores));
-            this.productService.addProduct(newProduct);
+            Product productSaved = this.productService.addProduct(newProduct);
+            ProductLog productLog = new ProductLog();
+            productLog.setProduct(productSaved);
+            productLog.setCount(0);
+            productLog.setResearches(new ArrayList<ResearchLog>());
+            this.logService.saveProductLog(productLog);
         });
 
         if(offset+ number < result.totalResults){
