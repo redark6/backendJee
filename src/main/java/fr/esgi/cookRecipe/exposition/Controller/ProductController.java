@@ -74,16 +74,6 @@ public class ProductController {
     }
 
     /**
-     * Pour supprimer un produit par id ( faudrais supprimer toutes les recettes associer, ed point a enlever surement)
-     **/
-    @DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity deleteProduct(@PathVariable(value="id") String id){
-        final DeleteProductById deleteProductById = new DeleteProductById(id);
-        commandBus.send(deleteProductById);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
      * Pour récuperer les nutriscores
      **/
     @GetMapping(value = "/nutriscore/all", produces = MediaType.APPLICATION_JSON_VALUE)
