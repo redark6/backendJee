@@ -22,3 +22,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: ./restart.sh &
+  ErrorServer:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+       - run: echo 'deployment on aws has failed'
