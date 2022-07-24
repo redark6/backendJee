@@ -3,7 +3,7 @@ name: Java CI with Maven
 on:
   workflow_call:
   push:
-    branches: [test]
+    branches: [develop]
 
 jobs:
   build:
