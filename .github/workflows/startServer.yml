@@ -1,0 +1,24 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Start Server
+
+on:
+  workflow_run:
+    workflows: [Deploy back-end aplication on EC2]
+    types:
+      - completed
+
+jobs:
+  startServer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: start server nest
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: ./restart.sh &
