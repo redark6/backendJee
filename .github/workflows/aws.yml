@@ -1,9 +1,13 @@
-name: Deploy back-end aplication on EC2
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Deploy Back-End Application on EC2
 
 on:
+  workflow_call:
   push:
     branches:
-      - develop
+      [develop]
 
 jobs:
   build:
@@ -23,3 +27,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: ./
           target: ${{ secrets.DIR_TARGET }}
+      - name: start server maven
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: mvn spring-boot:run
